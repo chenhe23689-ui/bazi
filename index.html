@@ -238,20 +238,10 @@
             return;
         }
 
-        // 解析日期與時間
-        const dateParts = dateInput.split('-');
-        const timeParts = timeInput.split(':');
-        
-        const year = parseInt(dateParts[0]);
-        const month = parseInt(dateParts[1]);
-        const day = parseInt(dateParts[2]);
-        const hour = parseInt(timeParts[0]);
-        const minute = parseInt(timeParts[1]);
+        const [year, month, day] = dateInput.split('-').map(Number);
+        const [hour, minute] = timeInput.split(':').map(Number);
 
-        // 使用 lunar-javascript 建立 Solar 對象
         const solar = Solar.fromYmdHms(year, month, day, hour, minute, 0);
-        
-        // 轉換為 Lunar (農曆) 對象以獲取八字
         const lunar = solar.getLunar();
         const baZi = lunar.getEightChar();
 
