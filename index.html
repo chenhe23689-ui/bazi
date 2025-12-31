@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專業八字命盤與十神解析</title>
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
+    <style>
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; line-height: 1.6; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 700px; }
+        h1, h2, h3 { text-align: center; color: #2c3e50; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        
+        .result-box { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 命盤表格樣式 */
+        .chart-table { width: 100%; border-collapse: separate; border-spacing: 5px; margin-bottom: 25px; text-align: center; }
+        .chart-table th { background: #ecf0f1; padding: 10px; border-radius: 5px; color: #7f8c8d; font-size: 14px; }
+        .chart-table td { background: #fff; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px 5px; vertical-align: middle; }
+        
+        /* 八字大字與十神小字 */
+        .gan-zhi { font-size: 24px; font-weight: bold; display: block; margin: 5px 0; }
+        .god-label { font-size: 12px; color: #7f8c8d; display: block; background: #fafafa; padding: 2px; border-radius: 4px; }
+        .day-master-bg { border-color: #f1c40f !important; background-color: #fffcf0 !important; }
+
+        /* 五行顏色 */
+        .wood { color: #27ae60; } /* 木 */
+        .fire { color: #c0392b; } /* 火 */
+        .earth { color: #d35400; } /* 土 */
+        .metal { color: #f39c12; } /* 金 */
+        .water { color: #2980b9; } /* 水 */
+
+        .analysis-card { background: #f8f9fa; padding: 20px; border-left: 5px solid #764ba2; border-radius: 5px; margin-bottom: 20px; }
+        .analysis-card h4 { margin-top: 0; color: #764ba2; display: flex; align-items: center; }
+        .tag { display: inline-block; background: #e1e5ea; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-right: 5px; color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔮 八字命盤 Pro</h1>
+    
+    <div class="input-group">
+        <label>出生日期 (國曆)</label>
+        <input type="date" id="birthDate">
+    </div>
+    
+    <div class="input-group">
+        <label>出生時間</label>
+        <input type="time" id="birthTime" value="12:00">
+    </div>
+
+    <button onclick="calculateBazi()">查看命盤與解析</button>
+
+    <div id="result" class="result-box">
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+        <h2>🗓️ 您的八字命盤</h2>
+        
+        <table class="chart-table">
+            <thead>
+                <tr>
+                    <th>年柱 (祖上/外在)</th>
+                    <th>月柱 (父母/事業)</th>
+                    <th>日柱 (自己/配偶)</th>
+                    <th>時柱 (子女/晚年)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span id="yearGod" class="god-label"></span></td>
+                    <td><span id="monthGod" class="god-label"></span></td>
+                    <td><span class="god-label">元神</span></td>
+                    <td><span id="hourGod" class="god-label"></span></td>
+                </tr>
+                <tr>
+                    <td id="yearGan"></td>
+                    <td id="monthGan"></td>
+                    <td id="dayGan" class="day-master-bg"></td>
+                    <td id="hourGan"></td>
+                </tr>
+                <tr>
+                    <td id="yearZhi"></td>
+                    <td id="monthZhi"></td>
+                    <td id="dayZhi" class="day-master-bg"></td>
+                    <td id="hourZhi"></td>
+                </tr>
+                <tr>
+                    <td><span id="yearZhiGod" class="god-label"></span></td>
+                    <td><span id="monthZhiGod" class="god-label"></span></td>
+                    <td><span id="dayZhiGod" class="god-label"></span></td>
+                    <td><span id="hourZhiGod" class="god-label"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="analysis-card">
+            <h4>👤 本命性格 (日主)</h4>
+            <p><strong>您的核心本質：</strong> <span id="dayMasterDesc"></span></p>
+            <p id="personalityText"></p>
+        </div>
+
+        <div class="analysis-card">
+            <h4>💼 行事風格 (月支十神格局)</h4>
+            <p><strong>您的格局傾向：</strong> <span id="patternType"></span></p>
+            <p id="patternDesc"></p>
+        </div>
+        
+        <div class="analysis-card">
+            <h4>💡 十神解釋小貼士</h4>
+            <div style="font-size: 14px; color: #666;">
+                <p><span class="tag">比肩/劫財</span> 代表朋友、競爭、自尊心。</p>
+                <p><span class="tag">食神/傷官</span> 代表才華、表達、創意、享樂。</p>
+                <p><span class="tag">正財/偏財</span> 代表金錢、物質、控制慾、現實。</p>
+                <p><span class="tag">正官/七殺</span> 代表地位、壓力、責任、行動力。</p>
+                <p><span class="tag">正印/偏印</span> 代表思考、長輩、學習、安全感。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 五行顏色映射
+    const getElementClass = (char) => {
+        const mapping = {
+            '甲': 'wood', '乙': 'wood', '寅': 'wood', '卯': 'wood',
+            '丙': 'fire', '丁': 'fire', '巳': 'fire', '午': 'fire',
+            '戊': 'earth', '己': 'earth', '辰': 'earth', '戌': 'earth', '丑': 'earth', '未': 'earth',
+            '庚': 'metal', '辛': 'metal', '申': 'metal', '酉': 'metal',
+            '壬': 'water', '癸': 'water', '亥': 'water', '子': 'water'
+        };
+        return mapping[char] || '';
+    };
+
+    const renderChar = (char) => `<span class="gan-zhi ${getElementClass(char)}">${char}</span>`;
+
+    // 日主個性庫
+    const personalities = {
+        '甲': '擁有大樹般的特質，正直、仁慈且向上生長。您不喜歡被屈服，有領袖風範，但有時較為固執，需要學會能屈能伸。',
+        '乙': '擁有花草般的韌性，適應力強，身段柔軟。您善於交際，心思細膩，雖然外表看似柔弱，內在生命力卻極強。',
+        '丙': '像太陽一樣熱情開朗，不拘小節。您樂於助人，藏不住話，情緒來得快去得也快，是團體中的開心果，但要注意脾氣。',
+        '丁': '像燭火般溫暖，心思縝密且敏感。您外表沈穩，內心充滿熱情，具有犧牲奉獻的精神，洞察力強，適合精細的工作。',
+        '戊': '像高山一樣穩重厚實，講信用。您給人安全感，做事按部就班，不喜歡變動，但有時會顯得反應較慢或過於固執。',
+        '己': '像田園之土，包容力強，多才多藝。您內斂謹慎，能孕育萬物，學習能力佳，但有時會優柔寡斷，缺點自信。',
+        '庚': '像刀劍一樣剛毅果斷，講義氣。您是非分明，執行力強，不喜歡拖泥帶水，但直率的個性容易無意間得罪人。',
+        '辛': '像珠寶一樣精緻，重視面子與質感。您感受力敏銳，口才佳，有獨特的審美觀，但內心較脆弱，需要他人的肯定。',
+        '壬': '像大海一樣奔放，聰明且反應快。您不喜歡受拘束，適應力極強，人脈廣闊，但有時流動性太大，讓人捉摸不定。',
+        '癸': '像雨露一樣溫柔，內向且富想像力。您心思細膩，直覺敏銳，善於觀察人心，但容易想太多而陷入情緒低潮。'
+    };
+
+    // 十神格局解釋 (取月支主氣)
+    const godPatterns = {
+        '比肩': '建祿格/比肩強：您自尊心強，獨立自主，不喜歡依賴他人。比起受僱於人，您更渴望擁有自己的事業或舞台，對朋友講義氣，但容易破財。',
+        '劫財': '羊刃/劫財強：您野心勃勃，競爭心強，具有很強的執行力與社交手腕。您的性格外向，但內心常有矛盾，在金錢管理上需特別注意大進大出。',
+        '食神': '食神格：您性情溫和，重視生活品質與享受，通常很有口福。您聰明且有才華，不喜歡與人爭鬥，適合從事需要創意或專業技能的領域。',
+        '傷官': '傷官格：您才思敏捷，叛逆心強，討厭傳統束縛。您的表達能力極佳，甚至有點毒舌，適合從事演藝、設計或打破常規的創新工作。',
+        '正財': '正財格：您個性務實，重視勤勞致富。您做事謹慎小心，重視家庭責任，不喜歡高風險的投機，是標準的理財好手與好員工。',
+        '偏財': '偏財格：您慷慨豪爽，金錢觀念靈活。您善於交際，眼光獨到，喜歡賺取流動之財或投資，不喜歡死守固定的薪水，很有商業頭腦。',
+        '正官': '正官格：您為人正直，重視紀律與名譽。您做事光明磊落，有責任感，適合在大型機構或公職發展，是典型的管理者人才。',
+        '七殺': '七殺格：您具有權威感，行事果決，甚至有點霸氣。您不畏艱難，喜歡挑戰高難度的任務，在混亂的環境中更能展現您的領導能力。',
+        '正印': '正印格：您心地善良，重視精神層面的滿足。您通常很有長輩緣，喜歡學習與思考，個性較為保守安靜，適合教育或學術研究。',
+        '偏印': '偏印格：您思考獨特，直覺敏銳，不喜歡隨波逐流。您在特殊領域或冷門學問上容易有過人的領悟力，個性較為孤僻高冷。'
+    };
+
+    function calculateBazi() {
+        const dateInput = document.getElementById('birthDate').value;
+        const timeInput = document.getElementById('birthTime').value;
+
+        if (!dateInput || !timeInput) {
+            alert('請輸入完整的出生日期與時間');
+            return;
+        }
+
+        const [year, month, day] = dateInput.split('-').map(Number);
+        const [hour, minute] = timeInput.split(':').map(Number);
+
+        // 建立 Solar 和 Lunar 對象
+        const solar = Solar.fromYmdHms(year, month, day, hour, minute, 0);
+        const lunar = solar.getLunar();
+        const baZi = lunar.getEightChar();
+
+        // 獲取四柱
+        document.getElementById('result').style.display = 'block';
+        
+        // 渲染天干地支
+        document.getElementById('yearGan').innerHTML = renderChar(baZi.getYearGan());
+        document.getElementById('yearZhi').innerHTML = renderChar(baZi.getYearZhi());
+        document.getElementById('monthGan').innerHTML = renderChar(baZi.getMonthGan());
+        document.getElementById('monthZhi').innerHTML = renderChar(baZi.getMonthZhi());
+        document.getElementById('dayGan').innerHTML = renderChar(baZi.getDayGan());
+        document.getElementById('dayZhi').innerHTML = renderChar(baZi.getDayZhi());
+        document.getElementById('hourGan').innerHTML = renderChar(baZi.getTimeGan());
+        document.getElementById('hourZhi').innerHTML = renderChar(baZi.getTimeZhi());
+
+        // 獲取十神 (lunar.js 內建方法)
+        document.getElementById('yearGod').innerText = baZi.getYearShiShenGan();
+        document.getElementById('monthGod').innerText = baZi.getMonthShiShenGan();
+        document.getElementById('hourGod').innerText = baZi.getTimeShiShenGan();
+
+        // 地支藏干十神 (這裡取本氣/主氣來簡化顯示)
+        // 注意：lunar.js 的 getYearShiShenZhi() 回傳的是一個陣列(包含所有藏干)，我們取第一個通常為主氣
+        document.getElementById('yearZhiGod').innerText = baZi.getYearShiShenZhi()[0];
+        document.getElementById('monthZhiGod').innerText = baZi.getMonthShiShenZhi()[0];
+        document.getElementById('dayZhiGod').innerText = baZi.getDayShiShenZhi()[0];
+        document.getElementById('hourZhiGod').innerText = baZi.getTimeShiShenZhi()[0];
+
+        // 1. 日主解析
+        const dayGan = baZi.getDayGan();
+        document.getElementById('dayMasterDesc').innerText = `${dayGan} (${getElementClass(dayGan) === 'wood' ? '木' : getElementClass(dayGan) === 'fire' ? '火' : getElementClass(dayGan) === 'earth' ? '土' : getElementClass(dayGan) === 'metal' ? '金' : '水'})`;
+        document.getElementById('personalityText').innerText = personalities[dayGan];
+
+        // 2. 格局解析 (簡單法：取月令主氣十神)
+        const patternGod = baZi.getMonthShiShenZhi()[0]; // 月支主氣十神
+        document.getElementById('patternType').innerText = patternGod;
+        document.getElementById('patternDesc').innerText = godPatterns[patternGod] || '格局較為複雜，融合了多種特質。';
+    }
+</script>
+
+</body>
+</html>
