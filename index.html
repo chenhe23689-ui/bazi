@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宸和 八字命盤查詢</title>
+    <title> 八字命盤 </title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <style>
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; line-height: 1.6; }
@@ -51,7 +51,7 @@
 <body>
 
 <div class="container">
-    <h1>🔮 八字命盤 Pro+</h1>
+    <h1>八字命盤查詢 @bychenhe</h1>
     
     <div class="input-group">
         <label>出生日期 (國曆)</label>
@@ -60,7 +60,7 @@
     
     <div class="input-group">
         <label>出生時間</label>
-        <input type="time" id="birthTime" value="12:00">
+        <input type="time" id="birthTime" value="24:00">
     </div>
 
     <button onclick="calculateBazi()">查看命盤</button>
@@ -116,6 +116,17 @@
             <h4>💼 行事風格 (月令格局)</h4>
             <p><strong>您的格局傾向：</strong> <span id="patternType"></span></p>
             <p id="patternDesc"></p>
+        </div>
+
+
+        <div class="analysis-card">
+            <h4>💡 十神解釋小貼士</h4>
+            <div style="font-size: 14px; color: #666;">
+                <p><span class="tag">比肩/劫財</span> 代表朋友、競爭、自尊心。</p>
+                <p><span class="tag">食神/傷官</span> 代表才華、表達、創意、享樂。</p>
+                <p><span class="tag">正財/偏財</span> 代表金錢、物質、控制慾、現實。</p>
+                <p><span class="tag">正官/七殺</span> 代表地位、壓力、責任、行動力。</p>
+                <p><span class="tag">正印/偏印</span> 代表思考、長輩、學習、安全感。</p>
         </div>
     </div>
 </div>
@@ -215,14 +226,11 @@
         document.getElementById('dayHidden').innerHTML = renderHiddenStems(baZi.getDayShiShenZhi());
         document.getElementById('hourHidden').innerHTML = renderHiddenStems(baZi.getTimeShiShenZhi());
 
-        // 解析
-        const dayGan = baZi.getDayGan();
-        document.getElementById('dayMasterDesc').innerText = `${dayGan} (${getElementClass(dayGan) === 'wood' ? '木' : getElementClass(dayGan) === 'fire' ? '火' : getElementClass(dayGan) === 'earth' ? '土' : getElementClass(dayGan) === 'metal' ? '金' : '水'})`;
-        document.getElementById('personalityText').innerText = personalities[dayGan];
-
-        const patternGod = baZi.getMonthShiShenZhi()[0]; 
-        document.getElementById('patternType').innerText = patternGod;
-        document.getElementById('patternDesc').innerText = godPatterns[patternGod] || '格局較為複雜，融合了多種特質。';
+        // 解析個性 (基於日柱天干，即「日主」)
+        const dayGan = baZi.getDayGan(); // 獲取日干 (甲、乙、丙...)
+        
+        document.getElementById('dayMasterName').innerText = `${dayGan} (${getElementClass(dayGan) === 'wood' ? '木' : getElementClass(dayGan) === 'fire' ? '火' : getElementClass(dayGan) === 'earth' ? '土' : getElementClass(dayGan) === 'metal' ? '金' : '水'})`;
+        document.getElementById('personalityText').innerText = personalities[dayGan] || '無法解析資料';
     }
 </script>
 
