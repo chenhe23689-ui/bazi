@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>專業八字命盤 | 線上排盤與運勢解析</title>
+    <title>八字命盤 | 線上排盤與運勢解析</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -63,7 +63,7 @@
 <body>
 
 <div class="container">
-    <h1>🔮 八字命盤 Pro</h1>
+    <h1> 八字排盤 @bychenhe </h1>
     <div class="subtitle">輸入生日，揭開您的命理密碼</div>
     
     <div class="input-group">
@@ -76,6 +76,14 @@
         <input type="time" id="birthTime" value="12:00">
     </div>
 
+    <div class="input-group">
+        <label>性別</label>
+        <select id="gender">
+            <option value="1">男</option>
+            <option value="0">女</option>
+        </select>
+    </div>
+
     <button class="btn-calc" onclick="calculateBazi()">查看命盤與解析</button>
 
     <div id="result" class="result-box">
@@ -85,10 +93,10 @@
         <table class="chart-table">
             <thead>
                 <tr>
-                    <th>年柱 (祖上)</th>
-                    <th>月柱 (事業)</th>
-                    <th>日柱 (本命)</th>
-                    <th>時柱 (子女)</th>
+                    <th>年柱 </th>
+                    <th>月柱 </th>
+                    <th>日柱 </th>
+                    <th>時柱 </th>
                 </tr>
             </thead>
             <tbody>
@@ -118,6 +126,14 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="analysis">
+            <h3>📖 個性解析</h3>
+            <p><strong>您的日主（元神）：</strong> <span id="dayMasterName"></span></p>
+            <p id="personalityText">請輸入生日以獲取解析。</p>
+        </div>
+    </div>
+</div>
 
         <div class="analysis-card">
             <h4>👤 本命性格 (日主)</h4>
@@ -222,10 +238,20 @@
             return;
         }
 
-        const [year, month, day] = dateInput.split('-').map(Number);
-        const [hour, minute] = timeInput.split(':').map(Number);
+        // 解析日期與時間
+        const dateParts = dateInput.split('-');
+        const timeParts = timeInput.split(':');
+        
+        const year = parseInt(dateParts[0]);
+        const month = parseInt(dateParts[1]);
+        const day = parseInt(dateParts[2]);
+        const hour = parseInt(timeParts[0]);
+        const minute = parseInt(timeParts[1]);
 
+        // 使用 lunar-javascript 建立 Solar 對象
         const solar = Solar.fromYmdHms(year, month, day, hour, minute, 0);
+        
+        // 轉換為 Lunar (農曆) 對象以獲取八字
         const lunar = solar.getLunar();
         const baZi = lunar.getEightChar();
 
@@ -259,7 +285,7 @@
 
         const patternGod = baZi.getMonthShiShenZhi()[0]; 
         document.getElementById('patternType').innerText = patternGod;
-        document.getElementById('patternDesc').innerText = godPatterns[patternGod] ;
+        document.getElementById('patternDesc').innerText = godPatterns;
         
         // 自動捲動到結果區
         setTimeout(() => {
