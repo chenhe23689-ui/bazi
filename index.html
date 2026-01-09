@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>專業八字命盤 V2.2 | 全盤流運掃描版</title>
+    <title>八字命盤 V2.3 | 全盤流運掃描版</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -87,8 +87,8 @@
 <body>
 
 <div class="container">
-    <h1>🧬 八字命理 AI 解析系統</h1>
-    <div class="subtitle">深度解析格局、身強弱、健康與即時流運</div>
+    <h1> 八字命理  簡易基本解析</h1>
+    <div class="subtitle">解析格局、身強弱、健康與即時流運</div>
     
     <div class="form-row">
         <div class="input-group">
@@ -110,13 +110,13 @@
         </div>
     </div>
 
-    <button class="btn-calc" onclick="calculateBazi()">開始深度運算</button>
+    <button class="btn-calc" onclick="calculateBazi()">開始解析</button>
 
     <div id="result" class="result-box">
         
         <div class="luck-box">
             <div class="luck-header">
-                <span><i class="fas fa-clock"></i> 此刻氣場掃描 (全盤比對)</span>
+                <span><i class="fas fa-clock"></i> 即時流運解析 </span>
                 <span class="luck-time" id="currentTimeStr">--:--</span>
             </div>
             <div class="luck-grid">
@@ -144,7 +144,7 @@
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
         
-        <h2 style="text-align:center;">🗓️ 您的本命八字</h2>
+        <h2 style="text-align:center;"> 本命八字 </h2>
         <table class="chart-table">
             <thead>
                 <tr>
@@ -183,14 +183,14 @@
         </table>
 
         <div class="analysis-card" style="margin-bottom: 20px;">
-            <h4>👤 本命性格深度解析</h4>
-            <p style="margin-bottom:5px;"><strong>您的核心本質：</strong> <span id="dayMasterDesc"></span></p>
+            <h4>👤 本命性格解析</h4>
+            <p style="margin-bottom:5px;"><strong>核心本質：</strong> <span id="dayMasterDesc"></span></p>
             <p id="personalityText" class="card-content" style="line-height:1.8;"></p>
         </div>
 
         <div class="grid-row">
             <div class="analysis-card">
-                <h4>⚖️ 格局與用神建議</h4>
+                <h4>⚖️ 格局與運勢建議</h4>
                 <div class="card-content">
                     <p><strong>日主強弱：</strong> <span id="bodyStrength" style="font-weight:bold; color:#d35400;"></span></p>
                     <p><strong>格局判斷：</strong> <span id="patternType"></span></p>
@@ -211,30 +211,29 @@
 
         <div class="grid-row">
             <div class="analysis-card" style="border-left-color: #e74c3c;">
-                <h4>🏥 五行病灶掃描</h4>
+                <h4>🏥 五行健康分析</h4>
                 <div class="card-content">
-                    <p style="font-size:13px; color:#999; margin-bottom:10px;">*僅供命理參考，身體不適請務必就醫</p>
+                    <p style="font-size:13px; color:#999; margin-bottom:10px;"> 僅供命理參考，身體不適請務必就醫 </p>
                     <div id="healthRisks"></div>
                 </div>
             </div>
 
             <div class="marketing-box">
-                <div class="marketing-title">⚠️ 命理僅供參考，造命在人</div>
+                <div class="marketing-title"> ⚠️ 命理僅供參考，造命在人 </div>
                 <div class="marketing-text">
-                    <p>電腦排盤能分析先天結構，但人生的際遇往往取決於<strong>「大運」與「流年」</strong>的配合。</p>
+                    <p>電腦排盤僅能分析先天結構，但人生的際遇往往取決於<strong>「大運」與「流年」</strong>的配合。</p>
                     <ul style="padding-left: 20px; margin: 5px 0;">
-                        <li>這真的是適合轉職、創業的年份嗎？</li>
-                        <li>目前遇到的對象是正緣嗎？</li>
+                        
                     </ul>
-                    <p>若您對未來感到迷惘，歡迎聯繫我進行完整的一對一諮詢，助您趨吉避凶。</p>
+                    <p>若您對未來感到迷惘，歡迎聯繫我進行完整的一對一諮詢，助您趨吉避凶，為您消災祈福。</p>
                 </div>
                 
                 <div class="social-buttons">
-                    <a href="https://line.me/ti/p/你的ID" target="_blank" class="btn-social btn-line">
-                        <i class="fab fa-line"></i> 加 LINE 諮詢
+                    <a href="https://line.me/ti/p/960yhrpr" target="_blank" class="btn-social btn-line">
+                        <i class="fab fa-line"></i> 加 LINE 諮詢服務
                     </a>
-                    <a href="https://instagram.com/你的ID" target="_blank" class="btn-social btn-ig">
-                        <i class="fab fa-instagram"></i> 追蹤 IG
+                    <a href="https://instagram.com/bychenhe" target="_blank" class="btn-social btn-ig">
+                        <i class="fab fa-instagram"></i> 追蹤 IG 可看大眾占卜
                     </a>
                 </div>
             </div>
@@ -243,7 +242,7 @@
     </div>
     
     <div class="footer">
-        &copy; 2024 專業八字命理系統 | V2.2 全盤掃描版
+        &copy; 2024 八字命理系統 | V2.3 掃描車關版
     </div>
 </div>
 
@@ -339,7 +338,7 @@
         analyzeStrengthAndAdvice(baZi, scores);
         analyzeHealth(scores);
         
-        // V2.2 升級版即時運勢
+        // V2.2 升級版即時運勢 (含車關掃描)
         analyzeDetailedCurrentLuck(baZi);
 
         setTimeout(() => {
@@ -472,22 +471,19 @@
         }
     }
 
-    // === V2.2 核心：全盤掃描 ===
+    // === V2.2 核心：全盤掃描 (含車關檢測) ===
     function analyzeDetailedCurrentLuck(baZi) {
         const now = new Date();
         const curSolar = Solar.fromDate(now);
         const curLunar = curSolar.getLunar();
         const curBaZi = curLunar.getEightChar();
 
-        // 1. 顯示當前干支
         document.getElementById('currentTimeStr').innerText = `${now.getHours()}:${now.getMinutes() < 10 ? '0'+now.getMinutes() : now.getMinutes()}`;
         document.getElementById('curYear').innerHTML = toTraditional(curBaZi.getYearGan()) + toTraditional(curBaZi.getYearZhi());
         document.getElementById('curMonth').innerHTML = toTraditional(curBaZi.getMonthGan()) + toTraditional(curBaZi.getMonthZhi());
         document.getElementById('curDay').innerHTML = toTraditional(curBaZi.getDayGan()) + toTraditional(curBaZi.getDayZhi());
         document.getElementById('curHour').innerHTML = toTraditional(curBaZi.getTimeGan()) + toTraditional(curBaZi.getTimeZhi());
 
-        // 2. 準備比對資料
-        // 目標：流年/流月/流日/流時 (User視角)
         const currentPillars = [
             { name: "流年", gan: curBaZi.getYearGan(), zhi: curBaZi.getYearZhi() },
             { name: "流月", gan: curBaZi.getMonthGan(), zhi: curBaZi.getMonthZhi() },
@@ -495,7 +491,6 @@
             { name: "流時", gan: curBaZi.getTimeGan(), zhi: curBaZi.getTimeZhi() }
         ];
 
-        // 使用者四柱
         const userPillars = [
             { name: "年柱(祖上)", gan: baZi.getYearGan(), zhi: baZi.getYearZhi() },
             { name: "月柱(事業)", gan: baZi.getMonthGan(), zhi: baZi.getMonthZhi() },
@@ -503,31 +498,30 @@
             { name: "時柱(子女)", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() }
         ];
 
-        // 沖合對照表
         const chongMap = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
         const heMap = {'子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午'};
 
         let findings = [];
-
-        // 3. 執行全掃描 (4x4 迴圈)
-        // 為了避免太多資訊，我們設定優先級：流年>流日>流月>流時
         
         currentPillars.forEach(curr => {
             userPillars.forEach(user => {
-                // A. 天干相剋 (簡單版：只看甲庚沖等七殺關係，或五行剋)
-                // 這裡為了簡化輸出，重點放在地支沖合（因為地支沖合應驗最明顯）
-
-                // B. 地支六沖 (Clash)
+                // B. 地支六沖
                 if (chongMap[user.zhi] === curr.zhi) {
                     let impact = "變動、衝突、遠行";
                     if(user.name.includes("日柱")) impact = "情緒不穩、夫妻口角、意外";
                     if(user.name.includes("月柱")) impact = "工作變動、父母身體留意";
                     if(user.name.includes("年柱")) impact = "長輩健康、祖產變動";
                     
+                    // === 新增邏輯：寅申沖、巳亥沖 (車關提醒) ===
+                    const travelStars = ['寅', '申', '巳', '亥'];
+                    if (travelStars.includes(user.zhi) && travelStars.includes(curr.zhi)) {
+                        impact += "、<span style='color:red; font-weight:bold;'>⚠️小心車關</span>";
+                    }
+                    
                     findings.push(`<li><span class="luck-tag-clash">沖</span> <strong>${curr.name}</strong> 沖 <strong>${user.name}</strong>：<br><small>(${curr.zhi}沖${user.zhi}) 留意${impact}。</small></li>`);
                 }
 
-                // C. 地支六合 (Combine)
+                // C. 地支六合
                 if (heMap[user.zhi] === curr.zhi) {
                     let impact = "貴人互助、合作順利";
                     if(user.name.includes("日柱")) impact = "感情甜蜜、人緣佳";
@@ -535,14 +529,13 @@
                     findings.push(`<li><span class="luck-tag-combine">合</span> <strong>${curr.name}</strong> 合 <strong>${user.name}</strong>：<br><small>(${curr.zhi}合${user.zhi}) ${impact}。</small></li>`);
                 }
 
-                // D. 伏吟 (Same) - 歲運並臨的概念
+                // D. 伏吟
                 if (curr.gan === user.gan && curr.zhi === user.zhi) {
                     findings.push(`<li><span class="luck-tag-warn">伏吟</span> <strong>${curr.name}</strong> 重疊 <strong>${user.name}</strong>：<br><small>能量增強或停滯，宜靜不宜動，注意哭泣呻吟之事。</small></li>`);
                 }
             });
         });
 
-        // 4. 顯示結果
         const listDiv = document.getElementById('currentLuckAdvice');
         if (findings.length > 0) {
             listDiv.innerHTML = `<ul>${findings.join('')}</ul>`;
@@ -550,9 +543,9 @@
             listDiv.innerHTML = `
                 <div style="text-align:center; padding:10px;">
                     <span style="color:#2ecc71; font-size:16px;">
-                        <i class="fas fa-coffee"></i> 氣場掃描完畢，目前格局平穩。
+                        <i class="fas fa-coffee"></i> 無明顯沖合，格局平穩。
                     </span>
-                    <p style="font-size:12px; color:#aaa; margin-top:5px;">無明顯沖合，適合按部就班執行計畫。</p>
+                    <p style="font-size:12px; color:#aaa; margin-top:5px;">適合按部就班執行計畫。</p>
                 </div>`;
         }
     }
