@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>八字命盤 V2.3 | 全盤流運掃描版</title>
+    <title>八字命盤 V2.4 | 彈性時辰版</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -21,6 +21,10 @@
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; font-size: 14px; }
         input[type="date"], input[type="time"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         
+        /* Checkbox style */
+        .checkbox-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 5px; font-size: 13px; color: #666; cursor: pointer; }
+        .checkbox-wrapper input { width: auto; cursor: pointer; }
+
         .gender-group { display: flex; gap: 20px; align-items: center; height: 42px; }
         .radio-label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
@@ -36,8 +40,8 @@
         .chart-table td { background: #fff; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px 2px; vertical-align: top; }
         
         .gan-zhi { font-size: 24px; font-weight: bold; display: block; margin: 5px 0; }
-        .god-label-top { font-size: 12px; color: #555; display: block; background: #fafafa; padding: 4px 0; border-radius: 4px; margin-bottom: 5px; font-weight: bold; }
-        .hidden-stems-box { font-size: 12px; text-align: center; margin-top: 5px; color: #666; }
+        .god-label-top { font-size: 12px; color: #555; display: block; background: #fafafa; padding: 4px 0; border-radius: 4px; margin-bottom: 5px; font-weight: bold; min-height: 20px; }
+        .hidden-stems-box { font-size: 12px; text-align: center; margin-top: 5px; color: #666; min-height: 20px; }
         .main-qi { color: #333; font-weight: bold; display: block; margin-bottom: 2px; font-size: 13px; }
         .sub-qi { color: #999; display: block; font-size: 11px; transform: scale(0.9); }
         .day-master-bg { border-color: #f1c40f !important; background-color: #fffcf0 !important; }
@@ -98,6 +102,10 @@
         <div class="input-group">
             <label>出生時間</label>
             <input type="time" id="birthTime" value="12:00">
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="unknownTime" onchange="toggleTimeInput()"> 
+                不知道出生時間
+            </label>
         </div>
     </div>
     <div class="form-row">
@@ -242,11 +250,25 @@
     </div>
     
     <div class="footer">
-        &copy; 2024 八字命理系統 | V2.3 掃描車關版
+        &copy; 2024 八字命理系統 | V2.4 彈性時辰版
     </div>
 </div>
 
 <script>
+    function toggleTimeInput() {
+        const isUnknown = document.getElementById('unknownTime').checked;
+        const timeInput = document.getElementById('birthTime');
+        if(isUnknown) {
+            timeInput.disabled = true;
+            timeInput.style.backgroundColor = '#f0f0f0';
+            timeInput.style.color = '#aaa';
+        } else {
+            timeInput.disabled = false;
+            timeInput.style.backgroundColor = '#fff';
+            timeInput.style.color = '#000';
+        }
+    }
+
     // === 工具函數 ===
     function toTraditional(str) {
         if (!str) return '';
@@ -295,17 +317,31 @@
     // === 主程式 ===
     function calculateBazi() {
         const dateInput = document.getElementById('birthDate').value;
-        const timeInput = document.getElementById('birthTime').value;
         const gender = document.querySelector('input[name="gender"]:checked').value;
+        const isUnknownTime = document.getElementById('unknownTime').checked;
 
-        if (!dateInput || !timeInput) {
-            alert('請輸入完整的出生日期與時間');
+        if (!dateInput) {
+            alert('請輸入出生日期');
             return;
         }
 
-        const [year, month, day] = dateInput.split('-').map(Number);
-        const [hour, minute] = timeInput.split(':').map(Number);
+        let hour, minute;
+        
+        if (isUnknownTime) {
+            // 如果不知道時間，我們使用 12:00 作為基準來取日柱 (避免子時交界問題)
+            // 視覺上會顯示"吉時"，計算上會忽略時柱
+            hour = 12;
+            minute = 0;
+        } else {
+            const timeInput = document.getElementById('birthTime').value;
+            if(!timeInput) {
+                 alert('請輸入出生時間，或勾選「不知道出生時間」');
+                 return;
+            }
+            [hour, minute] = timeInput.split(':').map(Number);
+        }
 
+        const [year, month, day] = dateInput.split('-').map(Number);
         const solar = Solar.fromYmdHms(year, month, day, hour, minute, 0);
         const lunar = solar.getLunar();
         const baZi = lunar.getEightChar();
@@ -319,27 +355,36 @@
         document.getElementById('monthZhi').innerHTML = renderChar(baZi.getMonthZhi());
         document.getElementById('dayGan').innerHTML = renderChar(baZi.getDayGan());
         document.getElementById('dayZhi').innerHTML = renderChar(baZi.getDayZhi());
-        document.getElementById('hourGan').innerHTML = renderChar(baZi.getTimeGan());
-        document.getElementById('hourZhi').innerHTML = renderChar(baZi.getTimeZhi());
 
         document.getElementById('yearGod').innerText = toTraditional(baZi.getYearShiShenGan());
         document.getElementById('monthGod').innerText = toTraditional(baZi.getMonthShiShenGan());
-        document.getElementById('hourGod').innerText = toTraditional(baZi.getTimeShiShenGan());
-
+        
         document.getElementById('yearHidden').innerHTML = renderHiddenStems(baZi.getYearShiShenZhi());
         document.getElementById('monthHidden').innerHTML = renderHiddenStems(baZi.getMonthShiShenZhi());
         document.getElementById('dayHidden').innerHTML = renderHiddenStems(baZi.getDayShiShenZhi());
-        document.getElementById('hourHidden').innerHTML = renderHiddenStems(baZi.getTimeShiShenZhi());
+
+        // 處理時柱顯示
+        if (isUnknownTime) {
+            document.getElementById('hourGan').innerHTML = '<span class="gan-zhi" style="color:#aaa;">吉</span>';
+            document.getElementById('hourZhi').innerHTML = '<span class="gan-zhi" style="color:#aaa;">時</span>';
+            document.getElementById('hourGod').innerText = '';
+            document.getElementById('hourHidden').innerHTML = '';
+        } else {
+            document.getElementById('hourGan').innerHTML = renderChar(baZi.getTimeGan());
+            document.getElementById('hourZhi').innerHTML = renderChar(baZi.getTimeZhi());
+            document.getElementById('hourGod').innerText = toTraditional(baZi.getTimeShiShenGan());
+            document.getElementById('hourHidden').innerHTML = renderHiddenStems(baZi.getTimeShiShenZhi());
+        }
 
         // 解析功能
         analyzeBasic(baZi);
-        const scores = calculateFiveElementsScore(baZi);
+        const scores = calculateFiveElementsScore(baZi, isUnknownTime);
         renderRadarChart(scores);
-        analyzeStrengthAndAdvice(baZi, scores);
+        analyzeStrengthAndAdvice(baZi, scores, isUnknownTime);
         analyzeHealth(scores);
         
         // V2.2 升級版即時運勢 (含車關掃描)
-        analyzeDetailedCurrentLuck(baZi);
+        analyzeDetailedCurrentLuck(baZi, isUnknownTime);
 
         setTimeout(() => {
             document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
@@ -369,7 +414,7 @@
         document.getElementById('patternType').innerText = patternGod + "格 (月令主氣)";
     }
 
-    function calculateFiveElementsScore(baZi) {
+    function calculateFiveElementsScore(baZi, isUnknownTime) {
         let scores = { '金': 0, '木': 0, '水': 0, '火': 0, '土': 0 };
         const addScore = (char, weight) => {
             const el = getElementFromChar(char);
@@ -378,11 +423,16 @@
         addScore(baZi.getYearGan(), 1.0);
         addScore(baZi.getMonthGan(), 1.0);
         addScore(baZi.getDayGan(), 1.0);
-        addScore(baZi.getTimeGan(), 1.0);
         addScore(baZi.getYearZhi(), 1.0);
-        addScore(baZi.getMonthZhi(), 2.5);
+        addScore(baZi.getMonthZhi(), 2.5); // 月令權重最重
         addScore(baZi.getDayZhi(), 1.5);
-        addScore(baZi.getTimeZhi(), 1.0);
+
+        // 如果知道時間，才加入時柱分數
+        if (!isUnknownTime) {
+            addScore(baZi.getTimeGan(), 1.0);
+            addScore(baZi.getTimeZhi(), 1.0);
+        }
+
         return scores;
     }
 
@@ -415,13 +465,13 @@
             },
             options: {
                 maintainAspectRatio: false,
-                scales: { r: { beginAtZero: true, suggestMax: 40 } },
+                scales: { r: { beginAtZero: true, suggestMax: 30 } }, // Max值稍微調低一點因為少了時柱
                 plugins: { legend: { display: false } }
             }
         });
     }
 
-    function analyzeStrengthAndAdvice(baZi, scores) {
+    function analyzeStrengthAndAdvice(baZi, scores, isUnknownTime) {
         const me = getElementFromChar(baZi.getDayGan());
         const supportMap = {
             '木': ['木', '水'], '火': ['火', '木'], '土': ['土', '火'], 
@@ -434,7 +484,12 @@
             else otherScore += scores[el];
         }
         const isStrong = sameScore > otherScore;
-        document.getElementById('bodyStrength').innerText = isStrong ? '身強 (能量充沛)' : '身弱 (需要幫扶)';
+        
+        let strengthText = isStrong ? '身強 (能量充沛)' : '身弱 (需要幫扶)';
+        if (isUnknownTime) {
+            strengthText += ' <span style="font-size:12px; color:#999; display:block; margin-top:2px;">(⚠️ 缺少時柱資料，準確度約70%)</span>';
+        }
+        document.getElementById('bodyStrength').innerHTML = strengthText;
 
         let adviceHtml = '';
         if (isStrong) {
@@ -472,7 +527,7 @@
     }
 
     // === V2.2 核心：全盤掃描 (含車關檢測) ===
-    function analyzeDetailedCurrentLuck(baZi) {
+    function analyzeDetailedCurrentLuck(baZi, isUnknownTime) {
         const now = new Date();
         const curSolar = Solar.fromDate(now);
         const curLunar = curSolar.getLunar();
@@ -491,12 +546,16 @@
             { name: "流時", gan: curBaZi.getTimeGan(), zhi: curBaZi.getTimeZhi() }
         ];
 
-        const userPillars = [
+        let userPillars = [
             { name: "年柱(祖上)", gan: baZi.getYearGan(), zhi: baZi.getYearZhi() },
             { name: "月柱(事業)", gan: baZi.getMonthGan(), zhi: baZi.getMonthZhi() },
-            { name: "日柱(自己)", gan: baZi.getDayGan(), zhi: baZi.getDayZhi() },
-            { name: "時柱(子女)", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() }
+            { name: "日柱(自己)", gan: baZi.getDayGan(), zhi: baZi.getDayZhi() }
         ];
+
+        // 只有在知道時間的情況下，才把時柱加入掃描對象
+        if (!isUnknownTime) {
+            userPillars.push({ name: "時柱(子女)", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() });
+        }
 
         const chongMap = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
         const heMap = {'子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午'};
