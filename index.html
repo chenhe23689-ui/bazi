@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 八字命盤 V2.5 </title>
-    <!-- 引入外部函式庫 -->
+    <title>八字命盤 V2.7 | 智慧商城版</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,31 +13,24 @@
         body { font-family: "Microsoft JhengHei", "PingFang TC", Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; line-height: 1.6; padding-bottom: 80px; }
         .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 900px; position: relative; }
         
-        /* 標題樣式 (含字體大小設定) */
-        h1 { 
-            text-align: center; 
-            color: #2c3e50; 
-            margin-bottom: 5px; 
-            font-size: 28px; /* 字體大小 */
-        }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 28px; }
         .subtitle { text-align: center; color: #7f8c8d; font-size: 16px; margin-bottom: 25px; }
 
         /* === 表單區域 === */
         .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .input-group { flex: 1; min-width: 150px; }
-        
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; font-size: 14px; }
         input[type="date"], input[type="time"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        
-        /* Checkbox style */
         .checkbox-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 5px; font-size: 13px; color: #666; cursor: pointer; }
-        .checkbox-wrapper input { width: auto; cursor: pointer; }
-
         .gender-group { display: flex; gap: 20px; align-items: center; height: 42px; }
         .radio-label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
-        .btn-calc { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3); }
+        /* 按鈕群組 */
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-calc { flex: 2; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3); }
         .btn-calc:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-reset { flex: 1; padding: 14px; background: #95a5a6; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-reset:hover { background: #7f8c8d; }
         
         .result-box { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -47,28 +39,32 @@
         .chart-table { width: 100%; border-collapse: separate; border-spacing: 4px; margin-bottom: 25px; text-align: center; table-layout: fixed; }
         .chart-table th { background: #ecf0f1; padding: 8px 2px; border-radius: 5px; color: #7f8c8d; font-size: 13px; }
         .chart-table td { background: #fff; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px 2px; vertical-align: top; }
-        
         .gan-zhi { font-size: 24px; font-weight: bold; display: block; margin: 5px 0; }
         .god-label-top { font-size: 12px; color: #555; display: block; background: #fafafa; padding: 4px 0; border-radius: 4px; margin-bottom: 5px; font-weight: bold; min-height: 20px; }
         .hidden-stems-box { font-size: 12px; text-align: center; margin-top: 5px; color: #666; min-height: 20px; }
         .main-qi { color: #333; font-weight: bold; display: block; margin-bottom: 2px; font-size: 13px; }
         .sub-qi { color: #999; display: block; font-size: 11px; transform: scale(0.9); }
         .day-master-bg { border-color: #f1c40f !important; background-color: #fffcf0 !important; }
-        
-        /* 五行顏色 */
         .wood { color: #27ae60; } .fire { color: #c0392b; } .earth { color: #d35400; } .metal { color: #f39c12; } .water { color: #2980b9; }
 
         /* === 網格排版 === */
         .grid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         @media (max-width: 768px) { .grid-row { grid-template-columns: 1fr; } }
-
         .analysis-card { background: #f8f9fa; padding: 20px; border-left: 5px solid #764ba2; border-radius: 5px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column;}
         .analysis-card h4 { margin-top: 0; color: #764ba2; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
         .card-content { font-size: 15px; color: #444; flex-grow: 1; }
         .chart-container { position: relative; height: 250px; width: 100%; display: flex; justify-content: center; }
-
         .tag { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: white; margin-right: 5px; margin-bottom: 5px;}
         .tag-good { background: #2ecc71; } .tag-bad { background: #e74c3c; }
+
+        /* === 商品推薦區樣式 === */
+        .shop-recommend-box { margin-top: 15px; border-top: 1px dashed #ddd; padding-top: 10px; }
+        .shop-title { font-size: 14px; color: #e74c3c; font-weight: bold; margin-bottom: 8px; display: block; }
+        .shop-list { list-style: none; padding: 0; margin: 0; }
+        .shop-list li { margin-bottom: 6px; font-size: 14px; }
+        .shop-list a { color: #2980b9; text-decoration: none; font-weight: bold; transition: 0.2s; }
+        .shop-list a:hover { color: #e74c3c; text-decoration: underline; }
+        .shop-icon { margin-right: 5px; width: 20px; text-align: center; display: inline-block; }
 
         /* === 即時運勢區塊 === */
         .luck-box { background: linear-gradient(to right, #2c3e50, #4ca1af); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
@@ -78,8 +74,6 @@
         .luck-item { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 5px; }
         .luck-label { font-size: 12px; display: block; margin-bottom: 2px; opacity: 0.8; }
         .luck-val { font-size: 18px; font-weight: bold; }
-        
-        /* 運勢掃描列表 */
         .luck-scan-list { margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 5px; font-size: 14px; text-align: left; }
         .luck-scan-list ul { margin: 0; padding-left: 20px; }
         .luck-scan-list li { margin-bottom: 8px; }
@@ -91,7 +85,6 @@
         .marketing-box { background: #fff8e1; border: 1px solid #ffe0b2; padding: 20px; border-radius: 10px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; }
         .marketing-title { font-weight: bold; color: #d35400; font-size: 18px; margin-bottom: 10px; text-align: center; }
         .marketing-text { font-size: 13px; color: #555; margin-bottom: 15px; text-align: justify; line-height: 1.5; flex-grow: 1; }
-        
         .social-buttons { display: flex; gap: 10px; justify-content: center; margin-top: auto; }
         .btn-social { flex: 1; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.3s; color: white; font-size: 14px; }
         .btn-line { background-color: #06c755; } .btn-line:hover { background-color: #05b34c; }
@@ -130,7 +123,11 @@
         </div>
     </div>
 
-    <button class="btn-calc" onclick="calculateBazi()">開始解析</button>
+    <!-- 按鈕群組 -->
+    <div class="btn-group">
+        <button class="btn-calc" onclick="calculateBazi()">開始解析</button>
+        <button class="btn-reset" onclick="resetData()"><i class="fas fa-trash-alt"></i> 重設</button>
+    </div>
 
     <div id="result" class="result-box">
         
@@ -219,12 +216,14 @@
                     <p><strong>日主強弱：</strong> <span id="bodyStrength" style="font-weight:bold; color:#d35400;"></span></p>
                     <p><strong>格局判斷：</strong> <span id="patternType"></span></p>
                     
-                    <!-- 新增格局詳細說明區塊 -->
                     <p id="patternDesc" style="font-size:13px; color:#555; margin-top:8px; background:#fff; padding:10px; border-radius:5px; border:1px solid #ecf0f1; line-height:1.6;"></p>
 
                     <hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">
                     <p style="margin-bottom:5px;"><strong>💡 改運建議 (喜用神)：</strong></p>
                     <div id="luckyAdvice" style="font-size:14px; color:#555;"></div>
+
+                    <!-- 這裡會自動插入商品推薦連結 -->
+                    <div id="shopeeRecommend" class="shop-recommend-box" style="display:none;"></div>
                 </div>
             </div>
 
@@ -276,7 +275,81 @@
 </div>
 
 <script>
-    // 切換時間輸入框的啟用狀態
+    // ==========================================
+    // 🛒 蝦皮分潤連結設定區 (請在此修改)
+    // ==========================================
+    const shopeeLinks = {
+        '木': [
+            { name: '葡萄石(招財、帶來希望)', link: 'https://s.shopee.tw/6VHjWbeAT7' }, 
+            { name: '招財綠幽靈(專招正財)', link: 'https://s.shopee.tw/9fElIWhYx9' }
+        ],
+        '火': [
+            { name: '草莓晶(提升個人魅力)', link: 'https://s.shopee.tw/5VPCL7r1xK' },
+            { name: '紫水晶(開智慧、招貴人)', link: 'https://s.shopee.tw/1qVtySXl7g' }
+        ],
+        '土': [
+            { name: '虎眼石(增強自信、勇氣)', link: 'https://s.shopee.tw/10wmz8fRT6' },
+            { name: '黃玉(招財富，消除負面情緒)', link: 'https://s.shopee.tw/1BGDBuWfT0' }
+        ],
+        '金': [
+            { name: '白水晶(淨化磁場、防小人)', link: 'https://s.shopee.tw/5VPCLyDKpi' },
+            { name: '白瑪瑙(平靜心靈、消除壓力)', link: 'https://s.shopee.tw/7pn78M7jao' }
+        ],
+        '水': [
+            { name: '海藍寶(增強溝通表達能力)', link: 'https://s.shopee.tw/Lh6ClPjVk' },
+            { name: '天何石(幸運之石)', link: 'https://s.shopee.tw/9UvL7fkxTL' }
+            { name: '青金石(開智慧、冷靜)', link: 'https://s.shopee.tw/70E09B9Vsf' }
+        ]
+    };
+
+    // === 頁面載入時：檢查是否有儲存的資料 ===
+    window.addEventListener('DOMContentLoaded', () => {
+        loadUserData();
+    });
+
+    // === 儲存使用者資料到 LocalStorage ===
+    function saveUserData() {
+        const data = {
+            date: document.getElementById('birthDate').value,
+            time: document.getElementById('birthTime').value,
+            unknown: document.getElementById('unknownTime').checked,
+            gender: document.querySelector('input[name="gender"]:checked').value
+        };
+        localStorage.setItem('baziUserData', JSON.stringify(data));
+    }
+
+    // === 載入使用者資料並執行 ===
+    function loadUserData() {
+        const savedData = localStorage.getItem('baziUserData');
+        if (savedData) {
+            try {
+                const data = JSON.parse(savedData);
+                document.getElementById('birthDate').value = data.date;
+                document.getElementById('birthTime').value = data.time;
+                document.getElementById('unknownTime').checked = data.unknown;
+                
+                const radios = document.getElementsByName('gender');
+                for (let r of radios) {
+                    if (r.value === data.gender) r.checked = true;
+                }
+                toggleTimeInput();
+                if (data.date) {
+                    calculateBazi(false);
+                }
+            } catch (e) {
+                console.error("載入資料失敗", e);
+            }
+        }
+    }
+
+    // === 重設/清除資料 ===
+    function resetData() {
+        if(confirm('確定要清除已儲存的生日資料嗎？')) {
+            localStorage.removeItem('baziUserData');
+            location.reload();
+        }
+    }
+
     function toggleTimeInput() {
         const isUnknown = document.getElementById('unknownTime').checked;
         const timeInput = document.getElementById('birthTime');
@@ -291,7 +364,6 @@
         }
     }
 
-    // === 工具函數 ===
     function toTraditional(str) {
         if (!str) return '';
         return str.toString()
@@ -337,7 +409,7 @@
     let radarChart = null;
 
     // === 主程式 ===
-    function calculateBazi() {
+    function calculateBazi(doSave = true) {
         const dateInput = document.getElementById('birthDate').value;
         const gender = document.querySelector('input[name="gender"]:checked').value;
         const isUnknownTime = document.getElementById('unknownTime').checked;
@@ -347,13 +419,14 @@
             return;
         }
 
+        if (doSave) {
+            saveUserData();
+        }
+
         let hour, minute;
         
         if (isUnknownTime) {
-            // 如果不知道時間，我們使用 12:00 作為基準來取日柱 (避免子時交界問題)
-            // 視覺上會顯示"吉時"，計算上會忽略時柱
-            hour = 12;
-            minute = 0;
+            hour = 12; minute = 0;
         } else {
             const timeInput = document.getElementById('birthTime').value;
             if(!timeInput) {
@@ -385,7 +458,6 @@
         document.getElementById('monthHidden').innerHTML = renderHiddenStems(baZi.getMonthShiShenZhi());
         document.getElementById('dayHidden').innerHTML = renderHiddenStems(baZi.getDayShiShenZhi());
 
-        // 處理時柱顯示
         if (isUnknownTime) {
             document.getElementById('hourGan').innerHTML = '<span class="gan-zhi" style="color:#aaa;">吉</span>';
             document.getElementById('hourZhi').innerHTML = '<span class="gan-zhi" style="color:#aaa;">時</span>';
@@ -398,22 +470,20 @@
             document.getElementById('hourHidden').innerHTML = renderHiddenStems(baZi.getTimeShiShenZhi());
         }
 
-        // 解析功能
         analyzeBasic(baZi);
         const scores = calculateFiveElementsScore(baZi, isUnknownTime);
         renderRadarChart(scores);
         analyzeStrengthAndAdvice(baZi, scores, isUnknownTime);
         analyzeHealth(scores);
-        
-        // V2.2 升級版即時運勢 (含車關掃描)
         analyzeDetailedCurrentLuck(baZi, isUnknownTime);
 
-        setTimeout(() => {
-            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        if (doSave) { 
+             setTimeout(() => {
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
     }
 
-    // === 分析模組 ===
     function analyzeBasic(baZi) {
         const dayGan = baZi.getDayGan();
         const personalities = {
@@ -432,7 +502,6 @@
         document.getElementById('dayMasterDesc').innerText = `${toTraditional(dayGan)}日主 (${getElementFromChar(dayGan)})`;
         document.getElementById('personalityText').innerText = personalities[dayGan] || '';
 
-        // --- 新增的格局解析 ---
         const godPatterns = {
             '比肩': '建祿格/比肩強：您渴望獨立自主，不喜歡依賴。適合靠專業技能或合夥創業，但需注意人際競爭與錢財分奪的問題。',
             '劫財': '羊刃/劫財強：您野心勃勃，社交手腕高明，是天生的業務好手。但性格中有衝動的一面，投資理財需特別謹慎，以免大進大出。',
@@ -448,8 +517,6 @@
 
         const patternGod = toTraditional(baZi.getMonthShiShenZhi()[0]);
         document.getElementById('patternType').innerText = patternGod + "格 (月令主氣)";
-        
-        // 顯示對應的解析文字，如果找不到則顯示預設文字
         const patternDesc = godPatterns[patternGod] || '格局組合較為複雜，建議綜合全盤分析。';
         document.getElementById('patternDesc').innerText = patternDesc;
     }
@@ -464,15 +531,13 @@
         addScore(baZi.getMonthGan(), 1.0);
         addScore(baZi.getDayGan(), 1.0);
         addScore(baZi.getYearZhi(), 1.0);
-        addScore(baZi.getMonthZhi(), 2.5); // 月令權重最重
+        addScore(baZi.getMonthZhi(), 2.5);
         addScore(baZi.getDayZhi(), 1.5);
 
-        // 如果知道時間，才加入時柱分數
         if (!isUnknownTime) {
             addScore(baZi.getTimeGan(), 1.0);
             addScore(baZi.getTimeZhi(), 1.0);
         }
-
         return scores;
     }
 
@@ -505,7 +570,7 @@
             },
             options: {
                 maintainAspectRatio: false,
-                scales: { r: { beginAtZero: true, suggestMax: 30 } }, // Max值稍微調低一點因為少了時柱
+                scales: { r: { beginAtZero: true, suggestMax: 30 } },
                 plugins: { legend: { display: false } }
             }
         });
@@ -531,17 +596,60 @@
         }
         document.getElementById('bodyStrength').innerHTML = strengthText;
 
+        // === 計算喜用神並產生推薦連結 ===
+        let luckyElements = [];
         let adviceHtml = '';
+        
         if (isStrong) {
+            // 身強喜剋洩 (異黨)
+            const allElements = ['木', '火', '土', '金', '水'];
+            luckyElements = allElements.filter(el => !sameParty.includes(el));
+            
             adviceHtml += `<span class="tag tag-bad">忌：${sameParty.join('、')}</span> (多則為患)<br>`;
             adviceHtml += `您能量強，個性主觀。<strong>喜用神為「剋洩」</strong>（異黨）。<br>`;
             adviceHtml += `建議多穿非${me}系顏色衣物，透過輸出才華(食傷)或追求事業(官殺)消耗過剩精力。`;
         } else {
+            // 身弱喜生扶 (同黨)
+            luckyElements = sameParty;
+
             adviceHtml += `<span class="tag tag-good">喜：${sameParty.join('、')}</span> (貴人運)<br>`;
             adviceHtml += `您能量較弱，易受環境影響。<strong>喜用神為「生扶」</strong>（同黨）。<br>`;
             adviceHtml += `建議多穿${sameParty[0]}或${sameParty[1]}色系，配戴飾品，多與貴人親近增加底氣。`;
         }
         document.getElementById('luckyAdvice').innerHTML = adviceHtml;
+
+        // === 產生商品推薦列表 ===
+        const recommendBox = document.getElementById('shopeeRecommend');
+        let recommendHtml = `<span class="shop-title">🔥 開運好物推薦：</span><ul class="shop-list">`;
+        let hasRecommendation = false;
+
+        luckyElements.forEach(el => {
+            const items = shopeeLinks[el];
+            const iconMap = {'木':'🌲','火':'🔥','土':'⛰️','金':'⚔️','水':'🌊'};
+            
+            if (items && items.length > 0) {
+                hasRecommendation = true;
+                items.forEach(item => {
+                    // 如果 link 不是空的才顯示
+                    if(item.link && item.link.length > 5) {
+                        recommendHtml += `
+                            <li>
+                                <span class="shop-icon">${iconMap[el]}</span>
+                                <b>[${el}]</b> 
+                                <a href="${item.link}" target="_blank">${item.name} (點擊前往)</a>
+                            </li>`;
+                    }
+                });
+            }
+        });
+        recommendHtml += `</ul>`;
+
+        if(hasRecommendation) {
+            recommendBox.innerHTML = recommendHtml;
+            recommendBox.style.display = 'block';
+        } else {
+            recommendBox.style.display = 'none';
+        }
     }
 
     function analyzeHealth(scores) {
@@ -566,7 +674,6 @@
         }
     }
 
-    // === V2.2 核心：全盤掃描 (含車關檢測) ===
     function analyzeDetailedCurrentLuck(baZi, isUnknownTime) {
         const now = new Date();
         const curSolar = Solar.fromDate(now);
@@ -592,7 +699,6 @@
             { name: "日柱(自己)", gan: baZi.getDayGan(), zhi: baZi.getDayZhi() }
         ];
 
-        // 只有在知道時間的情況下，才把時柱加入掃描對象
         if (!isUnknownTime) {
             userPillars.push({ name: "時柱(子女)", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() });
         }
@@ -604,31 +710,25 @@
         
         currentPillars.forEach(curr => {
             userPillars.forEach(user => {
-                // B. 地支六沖
                 if (chongMap[user.zhi] === curr.zhi) {
                     let impact = "變動、衝突、遠行";
                     if(user.name.includes("日柱")) impact = "情緒不穩、夫妻口角、意外";
                     if(user.name.includes("月柱")) impact = "工作變動、父母身體留意";
                     if(user.name.includes("年柱")) impact = "長輩健康、祖產變動";
                     
-                    // === 新增邏輯：寅申沖、巳亥沖 (車關提醒) ===
                     const travelStars = ['寅', '申', '巳', '亥'];
                     if (travelStars.includes(user.zhi) && travelStars.includes(curr.zhi)) {
                         impact += "、<span style='color:red; font-weight:bold;'>⚠️小心車關</span>";
                     }
-                    
                     findings.push(`<li><span class="luck-tag-clash">沖</span> <strong>${curr.name}</strong> 沖 <strong>${user.name}</strong>：<br><small>(${curr.zhi}沖${user.zhi}) 留意${impact}。</small></li>`);
                 }
 
-                // C. 地支六合
                 if (heMap[user.zhi] === curr.zhi) {
                     let impact = "貴人互助、合作順利";
                     if(user.name.includes("日柱")) impact = "感情甜蜜、人緣佳";
-                    
                     findings.push(`<li><span class="luck-tag-combine">合</span> <strong>${curr.name}</strong> 合 <strong>${user.name}</strong>：<br><small>(${curr.zhi}合${user.zhi}) ${impact}。</small></li>`);
                 }
 
-                // D. 伏吟
                 if (curr.gan === user.gan && curr.zhi === user.zhi) {
                     findings.push(`<li><span class="luck-tag-warn">伏吟</span> <strong>${curr.name}</strong> 重疊 <strong>${user.name}</strong>：<br><small>能量增強或停滯，宜靜不宜動，注意哭泣呻吟之事。</small></li>`);
                 }
