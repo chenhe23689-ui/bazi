@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>八字命盤 V2.7</title>
+    <title>八字命盤 V2.8</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -59,12 +59,13 @@
 
         /* === 商品推薦區樣式 === */
         .shop-recommend-box { margin-top: 15px; border-top: 1px dashed #ddd; padding-top: 10px; }
-        .shop-title { font-size: 14px; color: #e74c3c; font-weight: bold; margin-bottom: 8px; display: block; }
+        .shop-title { font-size: 14px; color: #e74c3c; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .shop-list { list-style: none; padding: 0; margin: 0; }
-        .shop-list li { margin-bottom: 6px; font-size: 14px; }
+        .shop-list li { margin-bottom: 8px; font-size: 14px; display: flex; align-items: center; }
         .shop-list a { color: #2980b9; text-decoration: none; font-weight: bold; transition: 0.2s; }
         .shop-list a:hover { color: #e74c3c; text-decoration: underline; }
-        .shop-icon { margin-right: 5px; width: 20px; text-align: center; display: inline-block; }
+        .shop-icon { margin-right: 8px; width: 20px; text-align: center; display: inline-block; }
+        .shop-category { font-weight: bold; margin-right: 5px; color: #555; }
 
         /* === 即時運勢區塊 === */
         .luck-box { background: linear-gradient(to right, #2c3e50, #4ca1af); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
@@ -276,7 +277,7 @@
 
 <script>
     // ==========================================
-    // 🛒 蝦皮分潤連結設定區 (已修復語法錯誤)
+    // 🛒 蝦皮分潤連結設定區
     // ==========================================
     const shopeeLinks = {
         '木': [
@@ -620,7 +621,7 @@
 
         // === 產生商品推薦列表 ===
         const recommendBox = document.getElementById('shopeeRecommend');
-        let recommendHtml = `<span class="shop-title">🔥 開運好物推薦：</span><ul class="shop-list">`;
+        let recommendHtml = `<span class="shop-title"><i class="fas fa-shopping-cart"></i> 🔥 開運好物推薦：</span><ul class="shop-list">`;
         let hasRecommendation = false;
 
         luckyElements.forEach(el => {
@@ -635,8 +636,8 @@
                         recommendHtml += `
                             <li>
                                 <span class="shop-icon">${iconMap[el]}</span>
-                                <b>[${el}]</b> 
-                                <a href="${item.link}" target="_blank">${item.name} (點擊前往)</a>
+                                <span class="shop-category">[${el}]</span> 
+                                <a href="${item.link}" target="_blank">👉 ${item.name}</a>
                             </li>`;
                     }
                 });
