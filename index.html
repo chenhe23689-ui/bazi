@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>八字命盤 V2.8</title>
+    <title>八字命盤 V2.9 | 車關警示版</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,6 +34,38 @@
         
         .result-box { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* === 車關警示區塊 (新) === */
+        .car-safety-box { 
+            background: #fff5f5; 
+            border: 2px solid #ff6b6b; 
+            border-radius: 10px; 
+            padding: 15px; 
+            margin: 25px 0; 
+            text-align: center; 
+            animation: pulse 2s infinite;
+        }
+        .safety-title { color: #c0392b; font-weight: bold; font-size: 18px; margin-bottom: 5px; }
+        .safety-text { color: #555; font-size: 14px; margin-bottom: 10px; }
+        .safety-btn { 
+            display: inline-block; 
+            background: #e74c3c; 
+            color: white; 
+            padding: 10px 20px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 15px; 
+            transition: 0.3s; 
+            box-shadow: 0 2px 5px rgba(192, 57, 43, 0.3);
+        }
+        .safety-btn:hover { background: #c0392b; transform: translateY(-1px); }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
 
         /* === 八字表格 === */
         .chart-table { width: 100%; border-collapse: separate; border-spacing: 4px; margin-bottom: 25px; text-align: center; table-layout: fixed; }
@@ -159,6 +191,16 @@
             <div class="luck-scan-list" id="currentLuckAdvice">
                 正在掃描流年流月與本命四柱的交互作用...
             </div>
+        </div>
+
+        <!-- NEW: 車關警示區塊 (預設隱藏) -->
+        <div id="carSafetyBox" class="car-safety-box" style="display: none;">
+            <div class="safety-title">🚨 【流年車關警示】</div>
+            <div id="safetyText" class="safety-text"></div>
+            <!-- 連結會透過 JS 自動填入 -->
+            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn">
+                👉 建議備置：黑曜石(擋煞、避邪、消除負能量)
+            </a>
         </div>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
@@ -302,6 +344,9 @@
             { name: '青金石(開智慧、冷靜)', link: 'https://s.shopee.tw/70E09B9Vsf' }
         ]
     };
+
+    // 🔴 這裡填入【車關商品】的蝦皮連結
+    const carSafetyLink = 'https://s.shopee.tw/60LbInHVZF'; 
 
     // === 頁面載入時：檢查是否有儲存的資料 ===
     window.addEventListener('DOMContentLoaded', () => {
@@ -621,6 +666,7 @@
 
         // === 產生商品推薦列表 ===
         const recommendBox = document.getElementById('shopeeRecommend');
+        // 修改1: 加上購物車圖示
         let recommendHtml = `<span class="shop-title"><i class="fas fa-shopping-cart"></i> 🔥 開運好物推薦：</span><ul class="shop-list">`;
         let hasRecommendation = false;
 
@@ -631,12 +677,12 @@
             if (items && items.length > 0) {
                 hasRecommendation = true;
                 items.forEach(item => {
-                    // 如果 link 不是空的才顯示
                     if(item.link && item.link.length > 5) {
                         recommendHtml += `
                             <li>
                                 <span class="shop-icon">${iconMap[el]}</span>
                                 <span class="shop-category">[${el}]</span> 
+                                <!-- 修改2: 移除(點擊前往)，加上手指箭頭 -->
                                 <a href="${item.link}" target="_blank">👉 ${item.name}</a>
                             </li>`;
                     }
@@ -709,6 +755,31 @@
 
         let findings = [];
         
+        // === 車關檢查邏輯 (新) ===
+        const curYearZhi = curBaZi.getYearZhi();
+        let carClashType = '';
+        
+        userPillars.forEach(user => {
+            if ((curYearZhi === '寅' && user.zhi === '申') || (curYearZhi === '申' && user.zhi === '寅')) {
+                carClashType = '寅申沖';
+            }
+            if ((curYearZhi === '巳' && user.zhi === '亥') || (curYearZhi === '亥' && user.zhi === '巳')) {
+                carClashType = '巳亥沖';
+            }
+        });
+
+        const safetyBox = document.getElementById('carSafetyBox');
+        if (carClashType) {
+            document.getElementById('safetyText').innerText = 
+                `本歲次流年與您命盤出現「${carClashType}」，外出移動請特別留意交通安全。`;
+            // 設定按鈕連結
+            document.getElementById('safetyLinkBtn').href = carSafetyLink;
+            safetyBox.style.display = 'block';
+        } else {
+            safetyBox.style.display = 'none';
+        }
+
+        // === 原本的流運檢查邏輯 ===
         currentPillars.forEach(curr => {
             userPillars.forEach(user => {
                 if (chongMap[user.zhi] === curr.zhi) {
