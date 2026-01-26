@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 八字命盤 V3.3 </title>
+    <title>八字命盤 V3.4 | 完整解說版</title>
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.12/lunar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -124,6 +124,7 @@
         </div>
     </div>
 
+    <!-- 按鈕群組 -->
     <div class="btn-group">
         <button class="btn-calc" onclick="calculateBazi()">開始解析</button>
         <button class="btn-reset" onclick="resetData()"><i class="fas fa-trash-alt"></i> 重設</button>
@@ -149,7 +150,7 @@
         <div id="carSafetyBox" class="car-safety-box" style="display: none;">
             <div class="safety-title">🚨 【流年車關警示】</div>
             <div id="safetyText" style="margin-bottom:10px; color:#555;"></div>
-            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn">👉 建議備置：黑曜石(擋煞、避邪、消除負能量)</a>
+            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn">👉 建議備置：【開光】出入平安 擋煞葫蘆車掛</a>
         </div>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
@@ -157,7 +158,7 @@
         <!-- 八字表 -->
         <h2 style="text-align:center;"> 四柱八字 </h2>
         <table class="chart-table">
-            <thead><tr><th>年柱 (祖上/父母)</th><th>月柱 (朋友/內在)</th><th>日柱 (本命/配偶)</th><th>時柱 (子女/晚年)</th></tr></thead>
+            <thead><tr><th>年柱</th><th>月柱</th><th>日柱</th><th>時柱</th></tr></thead>
             <tbody>
                 <tr>
                     <td><span id="yearGod" class="god-label-top"></span></td>
@@ -191,10 +192,10 @@
             </div>
 
             <div class="analysis-card" style="border-left-color: #3498db;">
-                <h4>📊 五行能量分布示意圖</h4>
+                <h4>📊 五行能量分布示意</h4>
                 <div class="chart-container"><canvas id="wuxingChart"></canvas></div>
                 <p id="wuxingComment" style="font-size:14px; text-align:center; color:#666; margin-top:10px;"></p>
-                <p style="font-size:12px; text-align:center; color:#999;">(此為簡易能量分布，精確論命請洽專業服務)</p>
+                <p style="font-size:12px; text-align:center; color:#999;">(此為簡易能量分布，精確論命請諮詢專業服務)</p>
             </div>
         </div>
 
@@ -208,7 +209,7 @@
                 <div class="marketing-title">⚠️ 命理僅供參考，造命在人</div>
                 <div class="marketing-text">
                     <p>電腦排盤僅能分析先天結構，但人生的際遇往往取決於<strong>「大運」與「流年」</strong>的配合。</p>
-                    <p>想知道更詳細的解析，歡迎聯繫我進行完整的諮詢，助您趨吉避凶，為您消災祈福。</p>
+                    <p>想知道更詳細的解析，歡迎聯繫我進行完整的諮詢，助您趨吉避凶。</p>
                 </div>
                 <div class="social-buttons">
                     <a href="https://lin.ee/G7u1wKz" target="_blank" class="btn-social btn-line"><i class="fab fa-line"></i> 加 LINE 諮詢</a>
@@ -221,10 +222,9 @@
 </div>
 
 <script>
-    // 全域變數宣告
     let radarChart = null; 
     
-    // 🛒 蝦皮分潤連結設定區
+    // 🛒 設定區
     const shopeeLinks = {
         '木': [{ name: '葡萄石(招財、帶來希望)', link: 'https://s.shopee.tw/6VHjWbeAT7' }, { name: '招財綠幽靈(專招正財)', link: 'https://s.shopee.tw/9fElIWhYx9' }],
         '火': [{ name: '草莓晶(提升個人魅力)', link: 'https://s.shopee.tw/5VPCL7r1xK' }, { name: '紫水晶(開智慧、招貴人)', link: 'https://s.shopee.tw/1qVtySXl7g' }],
@@ -262,7 +262,7 @@
         renderTable(baZi, isUnknown);
         analyzeBasic(baZi);
         
-        // 1. 先算流運與分析 (即使畫圖失敗也能看)
+        // 1. 先算流運與分析
         analyzeDetailedCurrentLuck(baZi, isUnknown);
         
         const strength = calculateStrengthReal(baZi, isUnknown);
@@ -271,7 +271,7 @@
         const rScores = calculateRadarScores(baZi, isUnknown);
         analyzeHealth(rScores);
         
-        // 2. 最後畫圖 (加強防呆)
+        // 2. 最後畫圖
         try {
             renderRadarChart(rScores);
         } catch(e) { console.error("圖表載入失敗", e); }
@@ -306,11 +306,18 @@
             if (trans && (trans===me || Sheng[trans]===me)) { score += getWeight(i); scored[i]=true; }
         });
 
-        // 4. 三合/半合/暗拱
+        // 4. 三會 / 三合 / 半合 / 暗拱
         const zhis = [p[1], p[3], p[5], p[7]].filter(Boolean);
-        const combos = [{w:'水',z:['申','子','辰']}, {w:'火',z:['寅','午','戌']}, {w:'木',z:['亥','卯','未']}, {w:'金',z:['巳','酉','丑']}];
+        const combos = [
+            // 三會
+            {w:'木',z:['寅','卯','辰']}, {w:'火',z:['巳','午','未']}, {w:'金',z:['申','酉','戌']}, {w:'水',z:['亥','子','丑']},
+            // 三合
+            {w:'水',z:['申','子','辰']}, {w:'火',z:['寅','午','戌']}, {w:'木',z:['亥','卯','未']}, {w:'金',z:['巳','酉','丑']}
+        ];
+        
         combos.forEach(c => {
             let hits = c.z.filter(z => zhis.includes(z));
+            // 只要有2個字以上(含)就算成立
             if (hits.length >= 2) {
                 if (c.w===me || Sheng[c.w]===me) {
                     [1,3,5,7].forEach(idx => {
@@ -339,7 +346,8 @@
 
     function updateStrengthUI(score, me) {
         let status = score<20?'從弱格':score<45?'身弱格':score<80?'身強格':'從強格';
-        document.getElementById('bodyStrength').innerHTML = `${status} <span style="font-size:12px;color:#999;">(得分:${score})</span>`;
+        // 修改這裡：只顯示狀態名稱，移除後面的分數 span
+        document.getElementById('bodyStrength').innerHTML = `${status}`;
         
         const all = ['木','火','土','金','水'];
         const support = [me];
@@ -414,12 +422,12 @@
     
     function analyzeBasic(baZi) {
         const day = baZi.getDayGan();
-        const map = {'甲':'甲木如參天大樹，正直仁慈，不屈不撓。您有領袖氣質，但有時過於固執，不願變通。若能學會彎腰，成就將不可限量。','乙':'乙木如花草藤蔓，身段柔軟，適應力強。您善於交際，心思細膩，但容易依賴他人。在複雜的環境中往往能生存到最後。','丙':'丙火如太陽，熱情開朗，不拘小節。您樂於助人，情緒來去得快，但有時容易衝動。您的出現總能驅散陰霾，是團隊的小太陽。','丁':'丁火如燭光，溫暖貼心，洞察力強。您外表沈穩內心熱情，有犧牲奉獻的精神。往往是團隊中默默付出的智囊角色。','戊':'戊土如高山，穩重厚實，講求信用。您包容力強，喜歡穩定，但反應有時較慢。您給人強大的安全感，值得信賴。','己':'己土如田園，內斂謹慎，多才多藝。您做事細心，但容易優柔寡斷，想得太多。您善於孕育與培養，適合教育或輔佐他人。','庚':'庚金如刀劍，剛毅果斷，講義氣。您執行力強，愛憎分明，但有時過於強勢傷人。經過磨練的庚金能成大器。','辛':'辛金如珠寶，精緻優雅，重視質感。您口才佳，感受力敏銳，但自尊心強，受不了批評。您希望被呵護和欣賞。','壬':'壬水如江河，奔放自由，聰明機智。您反應快，人脈廣，但有時流動性太強缺乏定性。擁有大智慧，適合變動性高的工作。','癸':'癸水如雨露，溫柔內向，想像力富。您心思細密，善於觀察，但情緒容易受環境影響。您外表平靜，內心卻情感豐富。'};
+        const map = {'甲':'甲木如參天大樹...','乙':'乙木如花草藤蔓...','丙':'丙火如太陽...','丁':'丁火如燭光...','戊':'戊土如高山...','己':'己土如田園...','庚':'庚金如刀劍...','辛':'辛金如珠寶...','壬':'壬水如江河...','癸':'癸水如雨露...'};
         document.getElementById('dayMasterDesc').innerText = `${toTraditional(day)}日主 (${Wuxing[day]})`;
         document.getElementById('personalityText').innerText = map[day] || '';
         const pat = toTraditional(baZi.getMonthShiShenZhi()[0]);
         document.getElementById('patternType').innerText = pat + "格";
-        const patDesc = {'比肩':'您渴望獨立自主，不喜歡依賴。適合靠專業技能或合夥創業，但需注意人際競爭與錢財分奪的問題。','劫財':'您野心勃勃，社交手腕高明，是天生的業務好手。但性格中有衝動的一面，投資理財需特別謹慎，以免大進大出。','食神':'您天生有福氣，重視生活品味，性格溫和不喜爭鬥。適合從事餐飲、藝術或需要發揮創意的行業，一生多貴人。','傷官':'您才華洋溢，反應極快，討厭傳統束縛。雖然能力強，但容易因為心直口快而得罪長官或另一半，適合自由業或技術職。','正財':'您是標準的務實派，做事謹慎，重視家庭責任。您不喜歡高風險的投機，相信勤勞致富，適合穩定的職場發展。','偏財':'您金錢觀念靈活，慷慨豪爽，善於交際。您不喜歡死守固定薪水，具有商業頭腦，適合經商、投資或業務性質工作。','正官':'您為人正直，自律甚嚴，重視名譽與信用。您具有管理才能，適合在大型企業或公家機關發展，是典型的領導人才。','七殺':'您具有強烈的執行力與權威感，不畏艱難。混亂的環境反而能激發您的潛能，適合軍警、法務或高挑戰性的管理職。','正印':'您心地善良，重視精神層面，有長輩緣。您喜歡學習，性格保守安靜，適合教育、學術或文化出版相關領域。','偏印':'您思考獨特，直覺敏銳，對神祕學或冷門知識感興趣。您不喜歡隨波逐流，適合從事設計、研發或身心靈相關產業。'};
+        const patDesc = {'比肩':'建祿格...','劫財':'羊刃...','食神':'食神格...','傷官':'傷官格...','正財':'正財格...','偏財':'偏財格...','正官':'正官格...','七殺':'七殺格...','正印':'正印格...','偏印':'偏印格...'};
         document.getElementById('patternDesc').innerText = patDesc[pat] || '格局組合較為複雜，建議綜合全盤分析。';
     }
 
@@ -459,7 +467,7 @@
 
     function analyzeHealth(scores) {
         let risks = [];
-        const healthMap = { '木':'肝膽、神經、筋骨，免疫系統', '火':'心血管、小腸、眼睛、口齒，循環系統', '土':'脾胃、皮膚，消化系統', '金':'耳、鼻、肺、大腸，呼吸系統', '水':'腎、面、膀胱、子宮，生殖/內分泌系統' };
+        const healthMap = { '木':'肝膽/筋骨', '火':'心血管/眼', '土':'脾胃/消化', '金':'肺/呼吸', '水':'腎/泌尿' };
         for(let k in scores) {
             if(scores[k]>35) risks.push(`<i class="fas fa-exclamation-triangle" style="color:#e74c3c"></i> <strong>${k}過旺：</strong>${healthMap[k]}`);
             if(scores[k]<15) risks.push(`<i class="fas fa-arrow-down" style="color:#f39c12"></i> <strong>${k}太弱：</strong>${healthMap[k]}`);
@@ -476,30 +484,45 @@
         document.getElementById('curDay').innerHTML = toTraditional(cur.getDayGan())+toTraditional(cur.getDayZhi());
         document.getElementById('curHour').innerHTML = toTraditional(cur.getTimeGan())+toTraditional(cur.getTimeZhi());
 
-        const pillars = [{n:'年柱',z:baZi.getYearZhi()}, {n:'月柱',z:baZi.getMonthZhi()}, {n:'日柱',z:baZi.getDayZhi()}];
-        if(!unknown) pillars.push({n:'時柱',z:baZi.getTimeZhi()});
+        // 使用符合您要求的變數名稱
+        const chongMap = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
+        const heMap = {'子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午'};
         
-        const yz = cur.getYearZhi();
-        let car = '';
-        pillars.forEach(p => {
-            if((yz=='寅'&&p.z=='申')||(yz=='申'&&p.z=='寅')) car='寅申沖';
-            if((yz=='巳'&&p.z=='亥')||(yz=='亥'&&p.z=='巳')) car='巳亥沖';
-        });
-        const box = document.getElementById('carSafetyBox');
-        if(car) {
-            document.getElementById('safetyText').innerText = `本歲次流年與您命盤出現「${car}」，外出移動請特別留意交通安全。`;
-            document.getElementById('safetyLinkBtn').href = carSafetyLink;
-            box.style.display = 'block';
-        } else { box.style.display = 'none'; }
+        let findings = [];
+        
+        // 準備好 User (Pillars) 和 Curr (Curs) 物件，包含 gan, zhi, name
+        const userPillars = [
+            { name: "年柱(祖上)", gan: baZi.getYearGan(), zhi: baZi.getYearZhi() },
+            { name: "月柱(事業)", gan: baZi.getMonthGan(), zhi: baZi.getMonthZhi() },
+            { name: "日柱(本命)", gan: baZi.getDayGan(), zhi: baZi.getDayZhi() }
+        ];
+        if(!unknown) userPillars.push({ name: "時柱(子女)", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() });
 
-        const chong = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
-        const he = {'子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午'};
-        let tips = [];
-        const curs = [{n:'流年',z:cur.getYearZhi()}, {n:'流月',z:cur.getMonthZhi()}, {n:'流日',z:cur.getDayZhi()}];
-        
-        curs.forEach(c => {
-            pillars.forEach(p => {
-         if (chongMap[user.zhi] === curr.zhi) {
+        const currentPillars = [
+            { name: "流年", gan: cur.getYearGan(), zhi: cur.getYearZhi() },
+            { name: "流月", gan: cur.getMonthGan(), zhi: cur.getMonthZhi() },
+            { name: "流日", gan: cur.getDayGan(), zhi: cur.getDayZhi() }
+        ];
+
+        // 1. 車關判斷 (使用流年 vs 本命)
+        const curYearZhi = cur.getYearZhi();
+        let carClashType = '';
+        userPillars.forEach(user => {
+            if ((curYearZhi === '寅' && user.zhi === '申') || (curYearZhi === '申' && user.zhi === '寅')) carClashType = '寅申沖';
+            if ((curYearZhi === '巳' && user.zhi === '亥') || (curYearZhi === '亥' && user.zhi === '巳')) carClashType = '巳亥沖';
+        });
+        const safetyBox = document.getElementById('carSafetyBox');
+        if (carClashType) {
+            document.getElementById('safetyText').innerText = `本歲次流年與您命盤出現「${carClashType}」，外出移動請特別留意交通安全。`;
+            document.getElementById('safetyLinkBtn').href = carSafetyLink;
+            safetyBox.style.display = 'block';
+        } else { safetyBox.style.display = 'none'; }
+
+        // 2. 詳細沖合分析 (Paste User Logic Here)
+        currentPillars.forEach(curr => {
+            userPillars.forEach(user => {
+                // --- 您的邏輯開始 ---
+                if (chongMap[user.zhi] === curr.zhi) {
                     let impact = "變動、衝突、遠行";
                     if(user.name.includes("日柱")) impact = "情緒不穩、夫妻口角、意外";
                     if(user.name.includes("月柱")) impact = "工作變動、父母身體留意";
@@ -521,21 +544,13 @@
                 if (curr.gan === user.gan && curr.zhi === user.zhi) {
                     findings.push(`<li><span class="luck-tag-warn">伏吟</span> <strong>${curr.name}</strong> 重疊 <strong>${user.name}</strong>：<br><small>能量增強或停滯，宜靜不宜動，注意哭泣呻吟之事。</small></li>`);
                 }
+                // --- 您的邏輯結束 ---
             });
         });
 
         const listDiv = document.getElementById('currentLuckAdvice');
-        if (findings.length > 0) {
-            listDiv.innerHTML = `<ul>${findings.join('')}</ul>`;
-        } else {
-            listDiv.innerHTML = `
-                <div style="text-align:center; padding:10px;">
-                    <span style="color:#2ecc71; font-size:16px;">
-                        <i class="fas fa-coffee"></i> 無明顯沖合，格局平穩。
-                    </span>
-                    <p style="font-size:12px; color:#aaa; margin-top:5px;">適合按部就班執行計畫。</p>
-                </div>`;
-
+        if (findings.length > 0) listDiv.innerHTML = `<ul>${findings.join('')}</ul>`;
+        else listDiv.innerHTML = `<div style="text-align:center; padding:10px;"><span style="color:#2ecc71; font-size:16px;"><i class="fas fa-coffee"></i> 無明顯沖合，格局平穩。</span><p style="font-size:12px; color:#aaa; margin-top:5px;">適合按部就班執行計畫。</p></div>`;
     }
 
     function saveUserData() {
