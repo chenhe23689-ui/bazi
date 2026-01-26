@@ -17,76 +17,78 @@
     .subtitle { text-align: center; color: #7f8c8d; font-size: 13px; margin-bottom: 15px; }
 
     /* === 填資料位置緊湊化 === */
-    .form-row { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: nowrap; } /* 修正：橫向不換行 */
+    .form-row { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: nowrap; align-items: flex-end; }
     .input-group { flex: 1; }
     label { display: block; margin-bottom: 3px; font-weight: bold; color: #34495e; font-size: 13px; }
-    input[type="date"], input[type="time"], select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; height: 40px; box-sizing: border-box; }
-    .gender-group { display: flex; gap: 15px; align-items: center; height: 40px; }
-    .checkbox-wrapper { font-size: 12px; color: #777; margin-top: 2px; }
+    input[type="date"], input[type="time"], select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; height: 38px; box-sizing: border-box; }
+    .gender-group { display: flex; gap: 15px; align-items: center; height: 38px; }
+    .checkbox-wrapper { font-size: 12px; color: #777; margin-top: 2px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
     .btn-group { display: flex; gap: 8px; margin-top: 5px; }
-    .btn-calc { flex: 2; padding: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-    .btn-reset { flex: 1; padding: 10px; background: #95a5a6; color: white; border: none; border-radius: 8px; font-size: 14px; }
+    .btn-calc { flex: 4; padding: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .btn-reset { flex: 1; padding: 10px; background: #95a5a6; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
 
     /* === 修正 2. 今日運勢一橫排 === */
     .luck-box { background: linear-gradient(to right, #2c3e50, #4ca1af); color: white; padding: 12px; border-radius: 12px; margin: 15px 0; }
     .luck-header { font-size: 15px; font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; }
-    .luck-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; } /* 修正：強制四欄 */
+    .luck-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; } 
     .luck-item { background: rgba(255,255,255,0.1); padding: 5px 2px; border-radius: 6px; }
     .luck-label { font-size: 10px; display: block; opacity: 0.8; }
     .luck-val { font-size: 14px; font-weight: bold; }
-    .luck-scan-list { margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; font-size: 13px; }
-    .luck-scan-list li { margin-bottom: 5px; line-height: 1.3; }
+    .luck-scan-list { margin-top: 8px; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 8px; font-size: 13px; }
+    .luck-scan-list ul { margin: 0; padding: 0; list-style: none; }
+    .luck-scan-list li { margin-bottom: 4px; line-height: 1.3; }
 
-    /* === 修正 3-4. 排盤緊湊化 === */
-    hr { margin: 15px 0; opacity: 0.5; }
-    h2 { font-size: 18px; margin: 10px 0 5px 0; }
-    .chart-table { width: 100%; border-spacing: 3px; margin-bottom: 10px; table-layout: fixed; }
-    .chart-table th { background: #ecf0f1; padding: 5px 2px; font-size: 11px; color: #7f8c8d; }
-    .chart-table td { background: #fff; border: 1px solid #ecf0f1; border-radius: 6px; padding: 8px 2px; }
-    .gan-zhi { font-size: 20px; font-weight: bold; margin: 2px 0; }
-    .god-label-top { font-size: 10px; padding: 2px 0; margin-bottom: 3px; border-radius: 3px; min-height: auto; }
-    .day-master-bg { border-width: 2px !important; }
+    /* === 修正 3-4. 排盤與標題縮減 === */
+    hr { margin: 12px 0; opacity: 0.3; }
+    h2 { font-size: 18px; margin: 8px 0 5px 0; }
+    .chart-table { width: 100%; border-collapse: separate; border-spacing: 3px; margin-bottom: 10px; table-layout: fixed; }
+    .chart-table th { background: #ecf0f1; padding: 4px 2px; font-size: 11px; color: #7f8c8d; border-radius: 4px; }
+    .chart-table td { background: #fff; border: 1px solid #ecf0f1; border-radius: 6px; padding: 6px 2px; vertical-align: top; }
+    .gan-zhi { font-size: 22px; font-weight: bold; margin: 2px 0; display: block; }
+    .god-label-top { font-size: 10px; padding: 2px 0; margin-bottom: 3px; background: #fafafa; border-radius: 4px; display: block; font-weight: bold; }
+    .day-master-bg { border: 2px solid #f1c40f !important; background-color: #fffcf0 !important; }
 
-    /* === 修正 5-9. 解析卡片空白縮減 === */
-    .analysis-card { background: #fff; padding: 15px; border-left: 5px solid #764ba2; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 12px; }
-    .analysis-card h4 { font-size: 16px; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #eee; color: #764ba2; }
-    .analysis-card p { font-size: 14px; margin-bottom: 5px; line-height: 1.5; color: #444; }
+    /* === 修正 5-9. 解析卡片與文字排版緊湊化 === */
+    .analysis-card { background: #f8f9fa; padding: 12px 15px; border-left: 5px solid #764ba2; border-radius: 8px; margin-bottom: 10px; }
+    .analysis-card h4 { font-size: 15px; margin: 0 0 8px 0; padding-bottom: 5px; border-bottom: 1px solid #eee; color: #764ba2; }
+    .analysis-card p { font-size: 13.5px; margin-bottom: 4px; line-height: 1.45; color: #444; }
     
-    .grid-row { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
-    .chart-container { height: 180px; width: 100%; } /* 縮小雷達圖高度 */
+    .grid-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+    .chart-container { height: 180px; width: 100%; }
 
-    /* === 修正 6. 文字行距與改運建議緊湊 === */
-    #patternDesc { font-size: 13px !important; line-height: 1.4 !important; padding: 8px !important; margin-bottom: 5px; }
-    #luckyAdvice { font-size: 13px; line-height: 1.3; }
-    .shop-recommend-box { margin-top: 8px; padding-top: 8px; }
-    .shop-list li { margin-bottom: 4px; font-size: 13px; }
+    #patternDesc { background: #fff; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-top: 5px; font-size: 13px; line-height: 1.4; }
+    #luckyAdvice { font-size: 13.5px; line-height: 1.4; }
+    .shop-recommend-box { margin-top: 8px; border-top: 1px dashed #ddd; padding-top: 8px; }
+    .shop-list li { margin-bottom: 3px; font-size: 13px; }
 
     /* === 修正 10. 長方形按鈕且等大 === */
     .social-buttons { display: flex; gap: 10px; margin-top: 10px; }
     .btn-social { 
         flex: 1; 
-        height: 45px; /* 固定高度確保一樣大 */
-        border-radius: 8px; 
+        height: 48px; 
+        border-radius: 10px; 
         text-decoration: none; 
         font-weight: bold; 
         display: flex; 
+        flex-direction: column; 
         align-items: center; 
         justify-content: center; 
-        gap: 8px; 
         color: white; 
-        font-size: 14px; 
+        font-size: 13px; 
+        line-height: 1.2;
     }
     .btn-line { background-color: #06c755; }
     .btn-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
 
-    .car-safety-box { padding: 10px; margin: 10px 0; }
-    .footer { text-align: center; margin-top: 15px; font-size: 11px; color: #aaa; }
+    .car-safety-box { background: #fff5f5; border: 2px solid #ff6b6b; border-radius: 10px; padding: 10px; margin: 10px 0; text-align: center; }
+    .footer { text-align: center; margin-top: 20px; font-size: 11px; color: #aaa; padding-bottom: 10px; }
 
-    /* 顏色標籤 */
-    .luck-tag-clash { background: #ff6b6b; color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-    .luck-tag-combine { background: #2ecc71; color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-    .luck-tag-warn { background: #f39c12; color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+    .luck-tag-clash { background: #ff6b6b; color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 3px; }
+    .luck-tag-combine { background: #2ecc71; color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 3px; }
+    .luck-tag-warn { background: #f39c12; color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 3px; }
+    .luck-tag-super { background: linear-gradient(45deg, #f1c40f, #e67e22); color: white; padding: 1px 4px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 3px; }
+    
     .wood { color: #27ae60; } .fire { color: #c0392b; } .earth { color: #d35400; } .metal { color: #f39c12; } .water { color: #2980b9; }
 </style>
 </head>
@@ -125,25 +127,26 @@
         <button class="btn-reset" onclick="resetData()"><i class="fas fa-trash-alt"></i></button>
     </div>
 
-    <div id="result" class="result-box">
-        <div class="luck-box">
-            <div class="luck-header">
-                <span><i class="fas fa-clock"></i> 今日即時運勢</span>
-                <span class="luck-time" id="currentTimeStr">--:--</span>
-            </div>
-            <div class="luck-grid">
-                <div class="luck-item"><span class="luck-label">流年</span><span class="luck-val" id="curYear"></span></div>
-                <div class="luck-item"><span class="luck-label">流月</span><span class="luck-val" id="curMonth"></span></div>
-                <div class="luck-item"><span class="luck-label">流日</span><span class="luck-val" id="curDay"></span></div>
-                <div class="luck-item"><span class="luck-label">流時</span><span class="luck-val" id="curHour"></span></div>
-            </div>
-            <div class="luck-scan-list" id="currentLuckAdvice">正在掃描...</div>
+    <div class="luck-box">
+        <div class="luck-header">
+            <span><i class="fas fa-clock"></i> 今日即時運勢</span>
+            <span class="luck-time" id="currentTimeStr">--:--</span>
         </div>
+        <div class="luck-grid">
+            <div class="luck-item"><span class="luck-label">流年</span><span class="luck-val" id="curYear"></span></div>
+            <div class="luck-item"><span class="luck-label">流月</span><span class="luck-val" id="curMonth"></span></div>
+            <div class="luck-item"><span class="luck-label">流日</span><span class="luck-val" id="curDay"></span></div>
+            <div class="luck-item"><span class="luck-label">流時</span><span class="luck-val" id="curHour"></span></div>
+        </div>
+        <div class="luck-scan-list" id="currentLuckAdvice">正在掃描...</div>
+    </div>
 
+    <div id="result" class="result-box">
+        
         <div id="carSafetyBox" class="car-safety-box" style="display: none;">
             <div class="safety-title">🚨 車關警示</div>
-            <div id="safetyText" style="font-size: 13px;"></div>
-            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn" style="margin-top:5px; font-size:12px;">👉 建議備置黑曜石</a>
+            <div id="safetyText" style="margin-bottom:5px;"></div>
+            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn">👉 建議備置黑曜石</a>
         </div>
 
         <h2 style="text-align:center;"> 四柱八字 </h2>
@@ -165,40 +168,44 @@
         <div class="analysis-card">
             <h4>👤 本命性格解析</h4>
             <p><strong>核心本質：</strong> <span id="dayMasterDesc"></span></p>
-            <p id="personalityText"></p>
+            <div id="personalityText" style="color:#444;"></div>
         </div>
 
         <div class="grid-row">
             <div class="analysis-card">
                 <h4>⚖️ 格局與建議</h4>
-                <p><strong>強弱：</strong> <span id="bodyStrength"></span></p>
+                <p><strong>強弱：</strong> <span id="bodyStrength" style="font-weight:bold; color:#d35400;"></span></p>
                 <p><strong>格局：</strong> <span id="patternType"></span></p>
                 <p id="patternDesc"></p>
                 <hr>
-                <p><strong>💡 喜用神：</strong></p>
+                <p><strong>💡 喜用神建議：</strong></p>
                 <div id="luckyAdvice"></div>
                 <div id="shopeeRecommend" class="shop-recommend-box"></div>
             </div>
 
             <div class="analysis-card">
-                <h4>📊 五行能量分布</h4>
+                <h4>📊 五行能量分佈</h4>
                 <div class="chart-container"><canvas id="wuxingChart"></canvas></div>
-                <p id="wuxingComment" style="font-size:12px; margin-top:5px;"></p>
+                <p id="wuxingComment" style="text-align:center; color:#666;"></p>
             </div>
             
             <div class="analysis-card">
                 <h4>🏥 健康分析</h4>
-                <div id="healthRisks" style="font-size:13px;"></div>
+                <div id="healthRisks"></div>
             </div>
 
             <div class="marketing-box">
                 <div class="marketing-title">⚠️ 命理僅供參考</div>
                 <div class="marketing-text">
-                    想了解完整解析，歡迎聯繫完整諮詢，助您趨吉避凶。
+                    電腦排盤僅能分析先天結構，想知道更詳細的解析，歡迎聯繫完整的諮詢。
                 </div>
                 <div class="social-buttons">
-                    <a href="https://lin.ee/G7u1wKz" target="_blank" class="btn-social btn-line"><i class="fab fa-line"></i> LINE 諮詢</a>
-                    <a href="https://instagram.com/bychenhe" target="_blank" class="btn-social btn-ig"><i class="fab fa-instagram"></i> 追蹤 IG</a>
+                    <a href="https://lin.ee/G7u1wKz" target="_blank" class="btn-social btn-line">
+                        <i class="fab fa-line"></i><span>LINE 諮詢</span>
+                    </a>
+                    <a href="https://instagram.com/bychenhe" target="_blank" class="btn-social btn-ig">
+                        <i class="fab fa-instagram"></i><span>追蹤 IG</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -219,7 +226,22 @@
     const Wuxing = { "甲":"木", "乙":"木", "寅":"木", "卯":"木", "丙":"火", "丁":"火", "巳":"火", "午":"火", "戊":"土", "己":"土", "辰":"土", "戌":"土", "丑":"土", "未":"土", "庚":"金", "辛":"金", "申":"金", "酉":"金", "壬":"水", "癸":"水", "亥":"水", "子":"水" };
     const Sheng = { "木":"火", "火":"土", "土":"金", "金":"水", "水":"木" };
 
-    window.addEventListener('DOMContentLoaded', loadUserData);
+    // 頁面載入時先執行今日運勢
+    window.addEventListener('DOMContentLoaded', () => {
+        updateTodayLuckOnly(); 
+        loadUserData();
+    });
+
+    function updateTodayLuckOnly() {
+        const now = new Date();
+        const cur = Solar.fromDate(now).getLunar().getEightChar();
+        document.getElementById('currentTimeStr').innerText = `${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
+        document.getElementById('curYear').innerText = toTraditional(cur.getYearGan()+cur.getYearZhi());
+        document.getElementById('curMonth').innerText = toTraditional(cur.getMonthGan()+cur.getMonthZhi());
+        document.getElementById('curDay').innerText = toTraditional(cur.getDayGan()+cur.getDayZhi());
+        document.getElementById('curHour').innerText = toTraditional(cur.getTimeGan()+cur.getTimeZhi());
+        document.getElementById('currentLuckAdvice').innerHTML = "今日氣場流通。點擊「開始解析」查看您的專屬流運。";
+    }
 
     function calculateBazi(doSave = true) {
         const d = document.getElementById('birthDate').value;
@@ -234,15 +256,20 @@
         const [yy, mm, dd] = d.split('-').map(Number);
         const solar = Solar.fromYmdHms(yy, mm, dd, h, 0, 0);
         const baZi = solar.getLunar().getEightChar();
+
         document.getElementById('result').style.display = 'block';
         renderTable(baZi, isUnknown);
         analyzeBasic(baZi);
         analyzeDetailedCurrentLuck(baZi, isUnknown);
+        
         const strength = calculateStrengthReal(baZi, isUnknown);
         updateStrengthUI(strength, getWuxing(baZi.getDayGan()));
+        
         const rScores = calculateRadarScores(baZi, isUnknown);
         analyzeHealth(rScores);
+        
         try { renderRadarChart(rScores); } catch(e) {}
+        if(doSave) setTimeout(() => document.getElementById('result').scrollIntoView({behavior:'smooth'}), 100);
     }
 
     function calculateStrengthReal(baZi, isUnknown) {
@@ -265,24 +292,22 @@
         const support = [me];
         for(let k in Sheng) { if(Sheng[k]===me) support.push(k); }
         let lucky = (status==='身強格') ? all.filter(e => !support.includes(e)) : support;
-        document.getElementById('luckyAdvice').innerHTML = lucky.join('、');
+        document.getElementById('luckyAdvice').innerHTML = `喜用神：<span class="tag tag-good" style="background:#2ecc71; color:white; padding:2px 6px; border-radius:4px;">${lucky.join('、')}</span>`;
         updateShopeeLinks(lucky);
     }
 
     function updateShopeeLinks(lucky) {
         const box = document.getElementById('shopeeRecommend');
-        let html = '<ul class="shop-list">';
+        let html = '<span style="font-size:13px; font-weight:bold; color:#e74c3c;">🔥 開運好物：</span><ul class="shop-list" style="list-style:none; padding:0; margin:5px 0;">';
         lucky.forEach(el => {
             if (shopeeLinks[el]) {
                 shopeeLinks[el].forEach(item => {
-                    html += `<li><a href="${item.link}" target="_blank">👉 ${item.name}</a></li>`;
+                    html += `<li><a href="${item.link}" target="_blank" style="color:#2980b9; text-decoration:none;">👉 ${item.name}</a></li>`;
                 });
             }
         });
         box.innerHTML = html + '</ul>';
     }
-
-    function getWuxing(c) { return Wuxing[c]; }
 
     function renderTable(baZi, unknown) {
         const els = ['year','month','day','hour'];
@@ -292,8 +317,10 @@
         const hiddens = [baZi.getYearShiShenZhi(), baZi.getMonthShiShenZhi(), baZi.getDayShiShenZhi(), baZi.getTimeShiShenZhi()];
         for(let i=0; i<4; i++) {
             if (unknown && i===3) {
-                document.getElementById(els[i]+'Gan').innerHTML = '吉';
-                document.getElementById(els[i]+'Zhi').innerHTML = '時';
+                document.getElementById(els[i]+'Gan').innerHTML = '<span style="color:#aaa">吉</span>';
+                document.getElementById(els[i]+'Zhi').innerHTML = '<span style="color:#aaa">時</span>';
+                document.getElementById(els[i]+'God').innerText = '';
+                document.getElementById(els[i]+'Hidden').innerText = '';
                 continue;
             }
             document.getElementById(els[i]+'Gan').innerHTML = renderChar(gans[i]);
@@ -315,17 +342,16 @@
 
     function analyzeBasic(baZi) {
         const day = baZi.getDayGan();
-        const map = {'甲':'甲木如大樹，正直仁慈。','乙':'乙木如花草，適應力強。','丙':'丙火如太陽，熱情開朗。','丁':'丁火如燭光，溫暖細心。','戊':'戊土如高山，穩重信譽。','己':'己土如田園，內斂多才。','庚':'庚金如刀劍，剛毅義氣。','辛':'辛金如珠寶，優雅敏銳。','壬':'壬水如江河，聰明奔放。','癸':'癸水如雨露，溫柔細膩。'};
+        const map = {'甲':'甲木如大樹，正直仁慈，成就不可限量。','乙':'乙木如花草，適應力強，心思細膩。','丙':'丙火如太陽，熱情開朗，情緒來去快。','丁':'丁火如燭光，溫暖細心，洞察力強。','戊':'戊土如高山，穩重信譽，包容力強。','己':'己土如田園，內斂多才，做事細心。','庚':'庚金如刀劍，剛毅義氣，執行力強。','辛':'辛金如珠寶，優雅敏銳，自尊心強。','壬':'壬水如江河，聰明奔放，反應極快。','癸':'癸水如雨露，溫柔細膩，想像力富。'};
         document.getElementById('dayMasterDesc').innerText = `${toTraditional(day)}日主 (${Wuxing[day]})`;
         document.getElementById('personalityText').innerText = map[day] || '';
         const pat = toTraditional(baZi.getMonthShiShenZhi()[0]);
         document.getElementById('patternType').innerText = pat + "格";
-        document.getElementById('patternDesc').innerText = '性格組合豐富，建議綜合分析。';
+        document.getElementById('patternDesc').innerText = '性格組合豐富。此格局代表您天生具有獨特才華，建議綜合大運分析。';
     }
 
     function calculateRadarScores(baZi, unknown) {
-        let s = { '金':10, '木':10, '水':10, '火':10, '土':10 };
-        return s;
+        return { '金':20, '木':15, '水':10, '火':30, '土':25 }; // 此處為示意，實際邏輯由您程式計算
     }
 
     function renderRadarChart(scores) {
@@ -333,26 +359,31 @@
         if (radarChart) radarChart.destroy();
         radarChart = new Chart(ctx, {
             type: 'radar',
-            data: { labels: ['木','火','土','金','水'], datasets: [{ data: [20,30,15,10,25], backgroundColor: 'rgba(118, 75, 162, 0.2)', borderColor: '#764ba2' }] },
+            data: { labels: ['木','火','土','金','水'], datasets: [{ data: [scores.木, scores.火, scores.土, scores.金, scores.水], backgroundColor: 'rgba(118, 75, 162, 0.2)', borderColor: '#764ba2' }] },
             options: { maintainAspectRatio: false, scales: { r: { beginAtZero: true, suggestMax: 35 } }, plugins: { legend: { display: false } } }
         });
     }
 
     function analyzeHealth(scores) {
-        document.getElementById('healthRisks').innerHTML = '五行流通平衡，保持良好作息。';
+        document.getElementById('healthRisks').innerHTML = '<i class="fas fa-check-circle" style="color:#2ecc71"></i> 五行流通平衡，身體不適請務必就醫。';
     }
 
     function analyzeDetailedCurrentLuck(baZi, unknown) {
         const now = new Date();
         const cur = Solar.fromDate(now).getLunar().getEightChar();
-        document.getElementById('currentTimeStr').innerText = `${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
-        document.getElementById('curYear').innerText = toTraditional(cur.getYearGan()+cur.getYearZhi());
-        document.getElementById('curMonth').innerText = toTraditional(cur.getMonthGan()+cur.getMonthZhi());
-        document.getElementById('curDay').innerText = toTraditional(cur.getDayGan()+cur.getDayZhi());
-        document.getElementById('curHour').innerText = toTraditional(cur.getTimeGan()+cur.getTimeZhi());
+        const chongMap = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
+        const heMap = {'子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午'};
         
-        let findings = ['<li><span class="luck-tag-combine">合</span> 流日與命盤和諧。</li>'];
-        document.getElementById('currentLuckAdvice').innerHTML = `<ul>${findings.join('')}</ul>`;
+        let findings = [];
+        const userP = [{ n:"年柱", z:baZi.getYearZhi() }, { n:"月柱", z:baZi.getMonthZhi() }, { n:"日柱", z:baZi.getDayZhi() }];
+        const curZ = cur.getDayZhi();
+
+        userP.forEach(u => {
+            if (chongMap[u.z] === curZ) findings.push(`<li><span class="luck-tag-clash">沖</span> 流日沖${u.n}：注意變動與壓力。</li>`);
+            if (heMap[u.z] === curZ) findings.push(`<li><span class="luck-tag-combine">合</span> 流日合${u.n}：易得貴人助。</li>`);
+        });
+
+        document.getElementById('currentLuckAdvice').innerHTML = findings.length > 0 ? `<ul>${findings.join('')}</ul>` : "今日氣場平穩。";
     }
 
     function saveUserData() {
@@ -373,7 +404,6 @@
             const rs = document.getElementsByName('gender');
             for(let r of rs) if(r.value===d.gender) r.checked=true;
             toggleTimeInput();
-            if(d.date) calculateBazi(false);
         }
     }
 
