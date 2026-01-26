@@ -9,101 +9,109 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
 <style>
-    /* === 核心框架修正 === */
-    body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; display: block; }
+    /* === 1. 全局樣式：找回 V2.9 的呼吸感與對齊 === */
+    body { 
+        font-family: "Microsoft JhengHei", "PingFang TC", Arial, sans-serif; 
+        background-color: #f0f2f5; 
+        display: flex; 
+        justify-content: center; 
+        padding: 15px; 
+        line-height: 1.6; 
+        padding-bottom: 80px; 
+        margin: 0;
+    }
     .container { 
-        background: #ffffff; 
-        padding: 20px 15px; 
+        background: white; 
+        padding: 25px 20px; 
         border-radius: 15px; 
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
         width: 100%; 
-        max-width: 500px; /* 針對手機寬度優化 */
+        max-width: 480px; /* 針對手機黃金寬度，解決鬆散問題 */
         margin: 0 auto; 
         box-sizing: border-box; 
+        position: relative; 
     }
     
-    h1 { text-align: center; color: #2c3e50; font-size: 22px; margin: 10px 0 5px 0; }
-    .subtitle { text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
+    h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 26px; }
+    .subtitle { text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 25px; }
 
-    /* === 表單區塊：解決偏右與太鬆的問題 === */
-    .form-row { margin-bottom: 15px; width: 100%; }
-    .input-group { width: 100%; margin-bottom: 12px; text-align: left; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; font-size: 15px; }
+    /* === 2. 表單區域：解決大偏右問題 === */
+    .form-row { display: block; margin-bottom: 15px; } /* 改為 block 確保不跑版 */
+    .input-group { width: 100%; margin-bottom: 12px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; font-size: 14px; }
     
-    /* 強制輸入框填滿寬度，解決偏右問題 */
+    /* 強制輸入框置中填滿，解決偏向一邊 */
     input[type="date"], input[type="time"], select { 
         width: 100% !important; 
         padding: 12px; 
         border: 1px solid #ddd; 
-        border-radius: 8px; 
-        font-size: 16px; 
+        border-radius: 10px; 
         box-sizing: border-box; 
-        display: block;
+        font-size: 16px; 
+        background: #fafafa;
     }
 
-    /* 性別選項：緊湊橫向排列 */
-    .gender-group { display: flex; gap: 30px; margin-top: 5px; justify-content: flex-start; }
-    .radio-label { display: flex; align-items: center; gap: 5px; font-size: 16px; cursor: pointer; }
+    .checkbox-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #666; cursor: pointer; }
+    .gender-group { display: flex; gap: 40px; align-items: center; padding: 5px 0; }
+    .radio-label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 16px; }
 
-    .btn-calc { 
-        width: 100%; 
-        padding: 14px; 
-        background: linear-gradient(135deg, #667eea, #764ba2); 
-        color: white; border: none; border-radius: 10px; 
-        font-size: 18px; font-weight: bold; cursor: pointer; 
-        margin-top: 10px; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);
-    }
+    /* 按鈕群組 */
+    .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-calc { flex: 2; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3); }
+    .btn-reset { flex: 1; padding: 14px; background: #95a5a6; color: white; border: none; border-radius: 10px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-    /* === 🌙 即時運勢區塊：還原 V2.9 漸層感 === */
-    .luck-box { 
-        background: linear-gradient(135deg, #2c3e50, #4ca1af); 
-        color: white; padding: 18px; border-radius: 12px; 
-        margin: 20px 0; box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-    .luck-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .luck-item { background: rgba(255,255,255,0.15); padding: 10px 2px; border-radius: 8px; text-align: center; }
-    .luck-label { font-size: 12px; opacity: 0.8; display: block; }
-    .luck-val { font-size: 16px !important; font-weight: bold; }
+    /* === 3. 即時運勢區塊：V2.9 的漸層層次 === */
+    .luck-box { background: linear-gradient(to right, #2c3e50, #4ca1af); color: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+    .luck-header { font-size: 18px; font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .luck-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+    .luck-item { background: rgba(255,255,255,0.12); padding: 10px 2px; border-radius: 8px; }
+    .luck-label { font-size: 11px; opacity: 0.8; margin-bottom: 2px; display: block; }
+    .luck-val { font-size: 16px; font-weight: bold; }
     
-    .luck-scan-list { margin-top: 15px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; font-size: 14px; }
-    .luck-scan-list ul { padding-left: 15px; margin: 0; list-style: none; }
-    .luck-scan-list li { margin-bottom: 10px; position: relative; padding-left: 5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+    /* 修正沖合刑害顯示清單 */
+    .luck-scan-list { margin-top: 15px; background: rgba(0,0,0,0.15); padding: 15px; border-radius: 10px; font-size: 14px; text-align: left; }
+    .luck-scan-list ul { margin: 0; padding: 0; list-style: none; }
+    .luck-scan-list li { margin-bottom: 10px; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
 
-    /* === 📊 八字表格：緊湊方塊 === */
-    .chart-table { width: 100%; border-spacing: 5px; margin: 20px 0; table-layout: fixed; }
-    .chart-table th { background: #f8f9fa; padding: 8px 2px; font-size: 12px; border-radius: 5px; color: #777; }
-    .chart-table td { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 10px 2px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-    .gan-zhi { font-size: 24px !important; font-weight: bold; display: block; }
-    .god-label-top { font-size: 12px; padding: 3px 0; margin-bottom: 5px; background: #fafafa; border-radius: 4px; display: block; }
+    /* === 4. 八字表格：V2.9 經典方塊比例 === */
+    .chart-table { width: 100%; border-collapse: separate; border-spacing: 5px; margin-bottom: 25px; text-align: center; table-layout: fixed; }
+    .chart-table th { background: #ecf0f1; padding: 8px 2px; border-radius: 5px; color: #7f8c8d; font-size: 12px; }
+    .chart-table td { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 12px 2px; vertical-align: top; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .gan-zhi { font-size: 26px; font-weight: bold; display: block; margin: 4px 0; }
+    .god-label-top { font-size: 11px; color: #666; display: block; background: #fafafa; padding: 3px 0; border-radius: 4px; margin-bottom: 6px; border: 1px solid #f0f2f5; }
+    .day-master-bg { border: 2.5px solid #f1c40f !important; background-color: #fffdf0 !important; }
 
-    /* === 📦 核心解析卡片：還原 V2.9 分區感 === */
+    /* === 5. 解析卡片：強烈分區感回歸 === */
     .analysis-card { 
         background: #ffffff; 
         padding: 20px; 
+        border-radius: 12px; 
         border: 1px solid #e1e8ed; 
         border-left: 6px solid #764ba2; 
-        border-radius: 12px; 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        margin-bottom: 20px;
-        box-sizing: border-box;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.05); 
+        margin-bottom: 25px; 
+        box-sizing: border-box; 
+        display: flex; 
+        flex-direction: column;
     }
-    .analysis-card h4 { font-size: 17px; margin: 0 0 12px 0; color: #764ba2; border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; }
+    .analysis-card h4 { margin-top: 0; color: #764ba2; margin-bottom: 12px; border-bottom: 2px solid #f0f2f5; padding-bottom: 8px; font-size: 17px; }
     
-    .grid-row { display: flex; flex-direction: column; gap: 20px; } /* 手機上一律垂直排列 */
+    .grid-row { display: flex; flex-direction: column; gap: 0; } /* 針對手機優化為垂直列表 */
 
-    /* 圖表容器 */
-    .chart-container { height: 220px; width: 100%; margin-top: 10px; }
+    /* === 6. 新增功能標籤樣式 === */
+    .luck-tag-clash { background: #ff6b6b; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 5px; }
+    .luck-tag-combine { background: #2ecc71; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 5px; }
+    .luck-tag-warn { background: #f39c12; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 5px; }
+    .luck-tag-danger { background: #95a5a6; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 5px; }
+    .luck-tag-super { background: linear-gradient(45deg, #f1c40f, #e67e22); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
-    /* 標籤樣式 */
-    .luck-tag-clash { background: #ff6b6b; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-    .luck-tag-combine { background: #2ecc71; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-
-    .marketing-box { background: #fffcf0; border: 1px solid #f1c40f; padding: 20px; border-radius: 12px; text-align: center; }
-    .btn-social { flex: 1; padding: 12px; border-radius: 8px; font-size: 14px; text-decoration: none; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+    /* 廣告區塊 */
+    .marketing-box { background: #fffdf5; border: 1px solid #fef3c7; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 6px 15px rgba(241,196,15,0.05); }
+    .btn-social { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; text-decoration: none; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; }
 
     .wood { color: #27ae60; } .fire { color: #c0392b; } .earth { color: #d35400; } .metal { color: #f39c12; } .water { color: #2980b9; }
-    .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #aaa; padding-bottom: 20px; }
-</style>    
+    .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #aaa; padding-bottom: 20px; }
+</style> 
 </head>
 <body>
 
