@@ -150,7 +150,7 @@
         <div id="carSafetyBox" class="car-safety-box" style="display: none;">
             <div class="safety-title">🚨 【流年車關警示】</div>
             <div id="safetyText" style="margin-bottom:10px; color:#555;"></div>
-            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn">👉 建議備置：【開光】出入平安 擋煞葫蘆車掛</a>
+            <a id="safetyLinkBtn" href="#" target="_blank" class="safety-btn">👉 建議備置：黑曜石(擋煞、避邪、消除負能量)</a>
         </div>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
@@ -158,7 +158,7 @@
         <!-- 八字表 -->
         <h2 style="text-align:center;"> 四柱八字 </h2>
         <table class="chart-table">
-            <thead><tr><th>年柱</th><th>月柱</th><th>日柱</th><th>時柱</th></tr></thead>
+            <thead><tr><th>年柱(父母長輩/上司)</th><th>月柱(同輩/內在)(</th><th>日柱(本命/配偶)</th><th>時柱(事業/子女)</th></tr></thead>
             <tbody>
                 <tr>
                     <td><span id="yearGod" class="god-label-top"></span></td>
@@ -192,10 +192,10 @@
             </div>
 
             <div class="analysis-card" style="border-left-color: #3498db;">
-                <h4>📊 五行能量分布示意</h4>
+                <h4>📊 五行能量分布示意圖</h4>
                 <div class="chart-container"><canvas id="wuxingChart"></canvas></div>
                 <p id="wuxingComment" style="font-size:14px; text-align:center; color:#666; margin-top:10px;"></p>
-                <p style="font-size:12px; text-align:center; color:#999;">(此為簡易能量分布，精確論命請諮詢專業服務)</p>
+                <p style="font-size:12px; text-align:center; color:#999;">(此為簡易能量分布，精確論命請洽專業服務)</p>
             </div>
         </div>
 
@@ -209,7 +209,7 @@
                 <div class="marketing-title">⚠️ 命理僅供參考，造命在人</div>
                 <div class="marketing-text">
                     <p>電腦排盤僅能分析先天結構，但人生的際遇往往取決於<strong>「大運」與「流年」</strong>的配合。</p>
-                    <p>想知道更詳細的解析，歡迎聯繫我進行完整的諮詢，助您趨吉避凶。</p>
+                    <p>想知道更詳細的解析，歡迎聯繫我進行完整的諮詢，助您趨吉避凶，為您消災祈福。</p>
                 </div>
                 <div class="social-buttons">
                     <a href="https://lin.ee/G7u1wKz" target="_blank" class="btn-social btn-line"><i class="fab fa-line"></i> 加 LINE 諮詢</a>
@@ -224,7 +224,7 @@
 <script>
     let radarChart = null; 
     
-    // 🛒 設定區
+    // 🛒 蝦皮分潤連結設定區
     const shopeeLinks = {
         '木': [{ name: '葡萄石(招財、帶來希望)', link: 'https://s.shopee.tw/6VHjWbeAT7' }, { name: '招財綠幽靈(專招正財)', link: 'https://s.shopee.tw/9fElIWhYx9' }],
         '火': [{ name: '草莓晶(提升個人魅力)', link: 'https://s.shopee.tw/5VPCL7r1xK' }, { name: '紫水晶(開智慧、招貴人)', link: 'https://s.shopee.tw/1qVtySXl7g' }],
@@ -232,6 +232,7 @@
         '金': [{ name: '白水晶(淨化磁場、防小人)', link: 'https://s.shopee.tw/5VPCLyDKpi' }, { name: '白瑪瑙(平靜心靈、消除壓力)', link: 'https://s.shopee.tw/7pn78M7jao' }],
         '水': [{ name: '海藍寶(增強溝通表達能力)', link: 'https://s.shopee.tw/Lh6ClPjVk' }, { name: '天何石(幸運之石)', link: 'https://s.shopee.tw/9UvL7fkxTL' }, { name: '青金石(開智慧、冷靜)', link: 'https://s.shopee.tw/70E09B9Vsf' }]
     };
+    // 🛒 車關方面蝦皮分潤連結設定區
     const carSafetyLink = 'https://s.shopee.tw/60LbInHVZF';
 
     // 核心資料
@@ -422,12 +423,12 @@
     
     function analyzeBasic(baZi) {
         const day = baZi.getDayGan();
-        const map = {'甲':'甲木如參天大樹...','乙':'乙木如花草藤蔓...','丙':'丙火如太陽...','丁':'丁火如燭光...','戊':'戊土如高山...','己':'己土如田園...','庚':'庚金如刀劍...','辛':'辛金如珠寶...','壬':'壬水如江河...','癸':'癸水如雨露...'};
+        const map = {'甲':'甲木如參天大樹，正直仁慈，不屈不撓。您有領袖氣質，但有時過於固執，不願變通。若能學會彎腰，成就將不可限量。','乙':'乙木如花草藤蔓，身段柔軟，適應力強。您善於交際，心思細膩，但容易依賴他人。在複雜的環境中往往能生存到最後。','丙':'丙火如太陽，熱情開朗，不拘小節。您樂於助人，情緒來去得快，但有時容易衝動。您的出現總能驅散陰霾，是團隊的小太陽。','丁':'丁火如燭光，溫暖貼心，洞察力強。您外表沈穩內心熱情，有犧牲奉獻的精神。往往是團隊中默默付出的智囊角色。','戊':'戊土如高山，穩重厚實，講求信用。您包容力強，喜歡穩定，但反應有時較慢。您給人強大的安全感，值得信賴。','己':'己土如田園，內斂謹慎，多才多藝。您做事細心，但容易優柔寡斷，想得太多。您善於孕育與培養，適合教育或輔佐他人。','庚':'庚金如刀劍，剛毅果斷，講義氣。您執行力強，愛憎分明，但有時過於強勢傷人。經過磨練的庚金能成大器。','辛':'辛金如珠寶，精緻優雅，重視質感。您口才佳，感受力敏銳，但自尊心強，受不了批評。您希望被呵護和欣賞。','壬':'壬水如江河，奔放自由，聰明機智。您反應快，人脈廣，但有時流動性太強缺乏定性。擁有大智慧，適合變動性高的工作。','癸':'癸水如雨露，溫柔內向，想像力富。您心思細密，善於觀察，但情緒容易受環境影響。您外表平靜，內心卻情感豐富。'};
         document.getElementById('dayMasterDesc').innerText = `${toTraditional(day)}日主 (${Wuxing[day]})`;
         document.getElementById('personalityText').innerText = map[day] || '';
         const pat = toTraditional(baZi.getMonthShiShenZhi()[0]);
         document.getElementById('patternType').innerText = pat + "格";
-        const patDesc = {'比肩':'建祿格...','劫財':'羊刃...','食神':'食神格...','傷官':'傷官格...','正財':'正財格...','偏財':'偏財格...','正官':'正官格...','七殺':'七殺格...','正印':'正印格...','偏印':'偏印格...'};
+        const patDesc = {'比肩':'您渴望獨立自主，不喜歡依賴。適合靠專業技能或合夥創業，但需注意人際競爭與錢財分奪的問題。','劫財':'您野心勃勃，社交手腕高明，是天生的業務好手。但性格中有衝動的一面，投資理財需特別謹慎，以免大進大出。','食神':'您天生有福氣，重視生活品味，性格溫和不喜爭鬥。適合從事餐飲、藝術或需要發揮創意的行業，一生多貴人。','傷官':'您才華洋溢，反應極快，討厭傳統束縛。雖然能力強，但容易因為心直口快而得罪長官或另一半，適合自由業或技術職。','正財':'您是標準的務實派，做事謹慎，重視家庭責任。您不喜歡高風險的投機，相信勤勞致富，適合穩定的職場發展。','偏財':'您金錢觀念靈活，慷慨豪爽，善於交際。您不喜歡死守固定薪水，具有商業頭腦，適合經商、投資或業務性質工作。','正官':'您為人正直，自律甚嚴，重視名譽與信用。您具有管理才能，適合在大型企業或公家機關發展，是典型的領導人才。','七殺':'您具有強烈的執行力與權威感，不畏艱難。混亂的環境反而能激發您的潛能，適合軍警、法務或高挑戰性的管理職。','正印':'您心地善良，重視精神層面，有長輩緣。您喜歡學習，性格保守安靜，適合教育、學術或文化出版相關領域。','偏印':'您思考獨特，直覺敏銳，對神祕學或冷門知識感興趣。您不喜歡隨波逐流，適合從事設計、研發或身心靈相關產業。'};
         document.getElementById('patternDesc').innerText = patDesc[pat] || '格局組合較為複雜，建議綜合全盤分析。';
     }
 
@@ -467,7 +468,11 @@
 
     function analyzeHealth(scores) {
         let risks = [];
-        const healthMap = { '木':'肝膽/筋骨', '火':'心血管/眼', '土':'脾胃/消化', '金':'肺/呼吸', '水':'腎/泌尿' };
+        const healthMap = { '木': '肝膽、神經、筋骨，免疫系統',
+            '火': '心血管、小腸、眼，循環系統',
+            '土': '脾、胃、皮膚，消化系統',
+            '金': '肺部、耳、鼻、大腸，呼吸系統',
+            '水': '腎臟、泌尿、子宮，生殖/內分泌系統' };
         for(let k in scores) {
             if(scores[k]>35) risks.push(`<i class="fas fa-exclamation-triangle" style="color:#e74c3c"></i> <strong>${k}過旺：</strong>${healthMap[k]}`);
             if(scores[k]<15) risks.push(`<i class="fas fa-arrow-down" style="color:#f39c12"></i> <strong>${k}太弱：</strong>${healthMap[k]}`);
@@ -492,11 +497,11 @@
         
         // 準備好 User (Pillars) 和 Curr (Curs) 物件，包含 gan, zhi, name
         const userPillars = [
-            { name: "年柱(祖上)", gan: baZi.getYearGan(), zhi: baZi.getYearZhi() },
-            { name: "月柱(事業)", gan: baZi.getMonthGan(), zhi: baZi.getMonthZhi() },
-            { name: "日柱(本命)", gan: baZi.getDayGan(), zhi: baZi.getDayZhi() }
+            { name: "年柱", gan: baZi.getYearGan(), zhi: baZi.getYearZhi() },
+            { name: "月柱", gan: baZi.getMonthGan(), zhi: baZi.getMonthZhi() },
+            { name: "日柱", gan: baZi.getDayGan(), zhi: baZi.getDayZhi() }
         ];
-        if(!unknown) userPillars.push({ name: "時柱(子女)", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() });
+        if(!unknown) userPillars.push({ name: "時柱", gan: baZi.getTimeGan(), zhi: baZi.getTimeZhi() });
 
         const currentPillars = [
             { name: "流年", gan: cur.getYearGan(), zhi: cur.getYearZhi() },
@@ -521,29 +526,86 @@
         // 2. 詳細沖合分析 (Paste User Logic Here)
         currentPillars.forEach(curr => {
             userPillars.forEach(user => {
-                // --- 您的邏輯開始 ---
-                if (chongMap[user.zhi] === curr.zhi) {
-                    let impact = "變動、衝突、遠行";
-                    if(user.name.includes("日柱")) impact = "情緒不穩、夫妻口角、意外";
-                    if(user.name.includes("月柱")) impact = "工作變動、父母身體留意";
-                    if(user.name.includes("年柱")) impact = "長輩健康、祖產變動";
-                    
-                    const travelStars = ['寅', '申', '巳', '亥'];
-                    if (travelStars.includes(user.zhi) && travelStars.includes(curr.zhi)) {
-                        impact += "、<span style='color:red; font-weight:bold;'>⚠️小心車關</span>";
-                    }
-                    findings.push(`<li><span class="luck-tag-clash">沖</span> <strong>${curr.name}</strong> 沖 <strong>${user.name}</strong>：<br><small>(${curr.zhi}沖${user.zhi}) 留意${impact}。</small></li>`);
-                }
+                // 1. 【地支】邏輯 (剛才寫的沖、合、刑、害、伏吟)
+               // 1. 判斷【沖】(Clash)
+if (chongMap[user.zhi] === curr.zhi) {
+    let impact = "變動、衝突、能量清洗";
+    if(user.name.includes("年柱")) impact = "環境劇烈變動、留意長輩健康、外出奔波";
+    if(user.name.includes("月柱")) impact = "職場環境變遷、情緒起伏大、與父母意見分歧";
+    if(user.name.includes("日柱")) impact = "自我否定、感情爭執、留意身體健康或居家維修";
+    if(user.name.includes("時柱")) impact = "計畫生變、創意被挑戰、留意與下屬溝通";
+    
+    const travelStars = ['寅', '申', '巳', '亥'];
+    if (travelStars.includes(user.zhi) && travelStars.includes(curr.zhi)) {
+        impact += "、<span style='color:red; font-weight:bold;'>⚠️小心車關與遠行意外</span>";
+    }
+    findings.push(`<li><span class="luck-tag-clash">沖</span> <strong>${curr.name}</strong> 沖 <strong>${user.name}</strong>：<br><small>(${curr.zhi}沖${user.zhi}) 留意${impact}。</small></li>`);
+}
 
-                if (heMap[user.zhi] === curr.zhi) {
-                    let impact = "貴人互助、合作順利";
-                    if(user.name.includes("日柱")) impact = "感情甜蜜、人緣佳";
-                    findings.push(`<li><span class="luck-tag-combine">合</span> <strong>${curr.name}</strong> 合 <strong>${user.name}</strong>：<br><small>(${curr.zhi}合${user.zhi}) ${impact}。</small></li>`);
-                }
+// 2. 判斷【合】(Combination)
+if (heMap[user.zhi] === curr.zhi) {
+    let impact = "貴人互助、緣分增加";
+    if(user.name.includes("年柱")) impact = "外部合作運佳，易得長輩或大環境助力";
+    if(user.name.includes("月柱")) impact = "人際關係和諧，工作職場順水推舟";
+    if(user.name.includes("日柱")) impact = "感情甜蜜、人緣佳，但也容易優柔寡斷";
+    if(user.name.includes("時柱")) impact = "想法易得認同，與晚輩或下屬互動良好";
+    findings.push(`<li><span class="luck-tag-combine">合</span> <strong>${curr.name}</strong> 合 <strong>${user.name}</strong>：<br><small>(${curr.zhi}合${user.zhi}) ${impact}。</small></li>`);
+}
 
-                if (curr.gan === user.gan && curr.zhi === user.zhi) {
-                    findings.push(`<li><span class="luck-tag-warn">伏吟</span> <strong>${curr.name}</strong> 重疊 <strong>${user.name}</strong>：<br><small>能量增強或停滯，宜靜不宜動，注意哭泣呻吟之事。</small></li>`);
-                }
+// 3. 判斷【刑】(Punishment) - 新增
+const xingMap = { '子':'卯', '卯':'子', '寅':'巳', '巳':'申', '申':'寅', '戌':'未', '未':'丑', '丑':'戌' };
+const selfXing = ['辰', '午', '酉', '亥']; // 自刑
+if (xingMap[user.zhi] === curr.zhi || (curr.zhi === user.zhi && selfXing.includes(curr.zhi))) {
+    let impact = "內心糾結、受挫感、人際摩擦";
+    if(user.name.includes("日柱")) impact = "自我要求過高、容易跟自己過不去";
+    findings.push(`<li><span class="luck-tag-warn" style="background:#f39c12; color:white; padding:2px 5px; border-radius:3px;">刑</span> <strong>${curr.name}</strong> 刑 <strong>${user.name}</strong>：<br><small>(${curr.zhi}刑${user.zhi}) 宜修身養性，${impact}。</small></li>`);
+}
+
+// 4. 判斷【害】(Harm) - 新增
+const haiMap = { '子':'未', '未':'子', '丑':'午', '午':'丑', '寅':'巳', '巳':'寅', '卯':'辰', '辰':'卯', '申':'亥', '亥':'申', '酉':'戌', '戌':'酉' };
+if (haiMap[user.zhi] === curr.zhi) {
+    let impact = "防小人干擾、莫管閒事";
+    if(user.name.includes("月柱")) impact = "職場防小人、注意溝通誤解";
+    findings.push(`<li><span class="luck-tag-danger" style="background:#95a5a6; color:white; padding:2px 5px; border-radius:3px;">害</span> <strong>${curr.name}</strong> 害 <strong>${user.name}</strong>：<br><small>(${curr.zhi}害${user.zhi}) 凡事謹言慎行，${impact}。</small></li>`);
+}
+
+// 5. 判斷【伏吟】(Same Pillar)
+if (curr.gan === user.gan && curr.zhi === user.zhi) {
+    findings.push(`<li><span class="luck-tag-warn">伏吟</span> <strong>${curr.name}</strong> 重疊 <strong>${user.name}</strong>：<br><small>能量重疊，易陷入糾結停滯，宜靜不宜動。</small></li>`);
+}
+
+// --- 天干邏輯開始 ---
+
+// 1. 天干五合 (Heavenly Stems Combinations) - 代表外在合作、情投意合、或是被外事牽絆
+const ganHeMap = { '甲':'己', '己':'甲', '乙':'庚', '庚':'乙', '丙':'辛', '辛':'丙', '丁':'壬', '壬':'丁', '戊':'癸', '癸':'戊' };
+        const ganChongMap = { '甲':'庚', '庚':'甲', '乙':'辛', '辛':'乙', '丙':'壬', '壬':'丙', '丁':'癸', '癸':'丁' };
+// A. 先判斷最高級別的組合：天地德合
+        if (ganHeMap[user.gan] === curr.gan && heMap[user.zhi] === curr.zhi) {
+            findings.push(`<li><span class="luck-tag-super" style="background:linear-gradient(45deg, #f1c40f, #e67e22); color:white; padding:2px 5px; border-radius:3px;">⭐ 天地德合</span> <strong>${curr.name}</strong> 與 <strong>${user.name}</strong> 鴛鴦相合：<br><small>極其罕見的大吉兆！外有貴人，內有和諧。</small></li>`);
+        } 
+        // B. 再判斷伏吟
+        else if (curr.gan === user.gan && curr.zhi === user.zhi) {
+            findings.push(`<li><span class="luck-tag-warn">伏吟</span> <strong>${curr.name}</strong> 重疊 <strong>${user.name}</strong>：<br><small>能量重疊，易陷入糾結停滯，建議緩步慢行。</small></li>`);
+        }
+        // C. 最後才判斷單純的天干合或衝
+        else {
+            if (ganHeMap[user.gan] === curr.gan) {
+                let impact = "外在人緣佳、有新的合作契機";
+                if(user.name.includes("日柱")) impact = "感情緣分強、有貴人接近";
+                if(user.name.includes("月柱")) impact = "職場社交活躍、外在形象加分";
+                findings.push(`<li><span class="luck-tag-combine" style="background:#e84393; color:white; padding:2px 5px; border-radius:3px;">天合</span> <strong>${curr.name}</strong> 合 <strong>${user.name}</strong>：<br><small>(${curr.gan}合${user.gan}) ${impact}。</small></li>`);
+            }
+            if (ganChongMap[user.gan] === curr.gan) {
+                let impact = "外在壓力大、容易有突發口舌";
+                if(user.name.includes("日柱")) impact = "個人名譽受損、留意正面衝突";
+                if(user.name.includes("月柱")) impact = "職場變動、外在阻力多";
+                findings.push(`<li><span class="luck-tag-clash" style="background:#2d3436; color:white; padding:2px 5px; border-radius:3px;">天衝</span> <strong>${curr.name}</strong> 衝 <strong>${user.name}</strong>：<br><small>(${curr.gan}衝${user.gan}) ${impact}。</small></li>`);
+            }
+        }
+    });
+});
+// --- 天干邏輯結束 ---
+
                 // --- 您的邏輯結束 ---
             });
         });
