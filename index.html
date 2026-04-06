@@ -726,32 +726,42 @@
     }
 };
 
-        // 建議將傳入的變數改為客人的「喜用五行」
-const curElement = getWuxing(favorableElement); // 假設你已經算出他的喜用神
+        // ==========================================
+        // 【五行穿搭】：專屬「喜用神」客製化邏輯
+        // ==========================================
+        // 1. 呼叫大師演算法，算出客人的喜用神
+        const strengthScore = calculateStrengthReal(baZi, unknown);
+        const dayMasterEl = getWuxing(baZi.getDayGan());
+        const bodyStatus = strengthScore < 20 ? '從弱' : strengthScore < 45 ? '身弱' : strengthScore < 80 ? '身強' : '從強';
+        
+        const allWuxing = ['木','火','土','金','水'];
+        const supportWuxing = [dayMasterEl];
+        for(let k in Sheng) { if(Sheng[k] === dayMasterEl) supportWuxing.push(k); }
+        
+        // 2. 得到喜用神陣列 (例如他缺木、火，就會得到 ['木', '火'])
+        const favorableElements = (bodyStatus === '從弱' || bodyStatus === '身強') ? allWuxing.filter(e => !supportWuxing.includes(e)) : supportWuxing;
 
-const colorDict = {
-    '木': '穿件 <span class="guide-highlight">[綠色、青色或薄荷綠]</span>，氣場更強',
-    '火': '穿件 <span class="guide-highlight">[紅色、紫色或橘紅色]</span>，氣場更強',
-    '土': '穿件 <span class="guide-highlight">[黃色、大地色或咖啡色]</span>，氣場更強',
-    '金': '穿件 <span class="guide-highlight">[白色、銀色或金屬色]</span>，氣場更強',
-    '水': '氣場更強穿件 <span class="guide-highlight">[黑色、深藍色或水藍色]</span>，氣場更強'
-};
+        // 3. 定義五行專屬色系
+        const colorWords = {
+            '木': '綠色、青色或薄荷綠',
+            '火': '紅色、紫色或橘紅色',
+            '土': '黃色、大地色或咖啡色',
+            '金': '白色、銀色或金屬色',
+            '水': '黑色、深藍色或水藍色'
+        };
 
-        // 【今日社交融洽】：以「流日地支」找三合六合
-const guiRenDict = {
-    '子': '龍、猴、牛', 
-    '丑': '蛇、雞、鼠', 
-    '寅': '馬、狗、豬', 
-    '卯': '豬、羊、狗',
-    '辰': '猴、鼠、雞', 
-    '巳': '雞、牛、猴', 
-    '午': '虎、狗、羊', 
-    '未': '豬、兔、馬',
-    '申': '鼠、龍、蛇', // 這裡把「辰」改回「龍」
-    '酉': '蛇、牛、龍', 
-    '戌': '虎、馬、兔', 
-    '亥': '兔、羊、虎'
-};
+        // 4. 把客人的所有喜用神顏色組合起來
+        let myLuckyColors = favorableElements.map(el => colorWords[el]).join('】 或 【');
+        let outfitHtml = `穿搭 <span class="guide-highlight">【${myLuckyColors}】</span> 系，補足專屬喜用能量，氣場大開！`;
+
+        // ==========================================
+        // 【今日貴人】：以「流日地支」找三合六合
+        // ==========================================
+        const guiRenDict = {
+            '子': '龍、猴、牛', '丑': '蛇、雞、鼠', '寅': '馬、狗、豬', '卯': '豬、羊、狗',
+            '辰': '猴、鼠、雞', '巳': '雞、牛、猴', '午': '虎、狗、羊', '未': '豬、兔、馬',
+            '申': '鼠、龍、蛇', '酉': '蛇、牛、龍', '戌': '虎、馬、兔', '亥': '兔、羊、虎'
+        };
 
         // ==========================================
         // 渲染【每日指南】
@@ -763,7 +773,7 @@ const guiRenDict = {
                 <ul class="guide-list">
                     <li><span class="guide-icon">🎯</span><span class="guide-text"><strong>今日主題：</strong> ${d.theme}</span></li>
                     <li><span class="guide-icon">💪</span><span class="guide-text"><strong>能力分析：</strong> ${d.action}</span></li>
-                    <li><span class="guide-icon">👕</span><span class="guide-text"><strong>開運穿搭：</strong> ${colorDict[curDayEl]}</span></li>
+                    <li><span class="guide-icon">👕</span><span class="guide-text"><strong>開運穿搭：</strong> ${outfitHtml}</span></li>
                     <li><span class="guide-icon">💎</span><span class="guide-text"><strong>幸運小物：</strong> ${d.item}</span></li>
                     <li><span class="guide-icon">☕</span><span class="guide-text"><strong>開運飲食：</strong> ${d.diet}</span></li>
                     <li><span class="guide-icon">🐭</span><span class="guide-text"><strong>今日貴人：</strong> 屬 <span class="guide-highlight">[${guiRenDict[cur.getDayZhi()]}]</span> 的夥伴</span></li>
@@ -874,40 +884,40 @@ const haiAdvice = {
 // 將這段邏輯融入你原本的迴圈中：
 
 // 開始檢查每個地支是否有衝突
-for (let uz of userZhis) {
-    let pairKey = uz + curHourZhi; 
+        for (let uz of userZhis) {
+            let pairKey = uz + curHourZhi; 
 
-    // 1. 檢查是否相「衝」 (車禍級：碰撞最強)
-    if (chong[uz] === curHourZhi) {
-        isDanger = true;
-        let detailMsg = chongAdvice[pairKey] || "深呼吸，慢半拍就是好運。"; 
-        alertMsg = `氣場跳動較快，容易心不在焉。建議暫停複雜腦力活，開車多讓讓路。💡神探錦囊：${detailMsg}`;
-        break; 
-    } 
-    // 2. 檢查是否相「刑」 (官司級：卡關內耗)
-    else if (xing[uz] === curHourZhi || uz === curHourZhi) { 
-        if (xingAdvice[pairKey]) {
-            isDanger = true;
-            let detailMsg = xingAdvice[pairKey];
-            alertMsg = `容易鑽牛角尖或覺得事情卡卡的。避免在吵雜環境做重大決定。💡神探錦囊：${detailMsg}`;
-            break;
+            // 1. 檢查是否相「衝」 (車禍級：碰撞最強)
+            if (chong[uz] === curHourZhi) {
+                isDanger = true;
+                let detailMsg = chongAdvice[pairKey] || "深呼吸，慢半拍就是好運。"; 
+                alertMsg = `氣場跳動較快，容易心不在焉。建議暫停複雜腦力活，開車多讓讓路。<br><br>💡 小提醒：${detailMsg}`;
+                break; 
+            } 
+            // 2. 檢查是否相「刑」 (官司級：卡關內耗)
+            else if (xing[uz] === curHourZhi || uz === curHourZhi) { 
+                if (xingAdvice[pairKey]) {
+                    isDanger = true;
+                    let detailMsg = xingAdvice[pairKey];
+                    alertMsg = `容易鑽牛角尖或覺得事情卡卡的。避免在吵雜環境做重大決定。<br><br>💡小提醒：${detailMsg}`;
+                    break;
+                }
+            }
+            // 3. 檢查是否相「害」 (小人級：暗箭難防)
+            else if (hai[uz] === curHourZhi) {
+                isDanger = true;
+                let detailMsg = haiAdvice[pairKey] || "保持低調，少說多做。";
+                alertMsg = `磁場容易招惹小人或引發委屈感。防人之心不可無，凡事多留個心眼。<br><br>💡小提醒：${detailMsg}`;
+                break;
+            }
+            // 4. 檢查是否相「破」 (掃興級：中斷破壞)
+            else if (po[uz] === curHourZhi) {
+                isDanger = true;
+                let detailMsg = poAdvice[pairKey] || "放寬心，好事多磨。";
+                alertMsg = `原本順利的事情可能會突然有小插曲。保持彈性，別因為小事破壞心情。<br><br>💡小提醒：${detailMsg}`;
+                break;
+            }
         }
-    }
-    // 3. 檢查是否相「害」 (小人級：暗箭難防)
-    else if (hai[uz] === curHourZhi) {
-        isDanger = true;
-        let detailMsg = haiAdvice[pairKey] || "保持低調，少說多做。";
-        alertMsg = `磁場容易招惹小人或引發委屈感。防人之心不可無，凡事多留個心眼。💡神探錦囊：${detailMsg}`;
-        break;
-    }
-    // 4. 檢查是否相「破」 (掃興級：中斷破壞)
-    else if (po[uz] === curHourZhi) {
-        isDanger = true;
-        let detailMsg = poAdvice[pairKey] || "放寬心，好事多磨。";
-        alertMsg = `原本順利的事情可能會突然有小插曲。保持彈性，別因為小事破壞心情。💡神探錦囊：${detailMsg}`;
-        break;
-    }
-}
 
         if (isDanger) {
             html += `
