@@ -51,7 +51,16 @@
         .narrative-p:last-of-type { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
         .narrative-title { color: #ffeaa7; font-weight: bold; margin-right: 4px; font-size: 15px; }
         .luck-footer { font-size: 11px; text-align: center; opacity: 0.7; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; font-style: italic; }
-        
+        /* === 每日指南專屬樣式 === */
+        .guide-section { background: rgba(0,0,0,0.25); padding: 15px; border-radius: 8px; font-size: 14px; text-align: left; line-height: 1.6; color: #fff; margin-top: 12px; }
+        .guide-title { font-size: 15px; font-weight: bold; color: #f1c40f; margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.3); padding-bottom: 5px; }
+        .guide-list { list-style: none; padding: 0; margin: 0; }
+        .guide-list li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
+        .guide-icon { min-width: 20px; text-align: center; font-size: 14px; }
+        .guide-text { flex: 1; }
+        .guide-highlight { font-weight: bold; color: #ffeaa7; }
+        .alert-box { background: rgba(231, 76, 60, 0.2); border-left: 3px solid #e74c3c; padding: 10px; margin-top: 15px; border-radius: 4px; }
+        .safe-box { background: rgba(46, 204, 113, 0.2); border-left: 3px solid #2ecc71; padding: 10px; margin-top: 15px; border-radius: 4px; }
         /* === V5.0 智慧推銷區塊 === */
         .upsell-box { background: #fffcf0; border: 2px solid #f1c40f; border-radius: 10px; padding: 15px; margin-bottom: 20px; animation: pulseUpsell 2s infinite; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .upsell-box.danger { background: #fff5f5; border-color: #ff6b6b; animation: pulseDanger 2s infinite; }
@@ -624,126 +633,299 @@
         document.getElementById('curDay').innerHTML = toTraditional(cur.getDayGan())+toTraditional(cur.getDayZhi());
         document.getElementById('curHour').innerHTML = toTraditional(cur.getTimeGan())+toTraditional(cur.getTimeZhi());
 
-        const CHONG_MAP = {
-    '子午': '水火交戰，情緒起伏極大，內心常有兩個聲音在拉扯。容易面臨極端抉擇，需特別留意心血管與失眠問題。', 
-    '午子': '水火交戰，情緒起伏極大，內心常有兩個聲音在拉扯。容易面臨極端抉擇，需特別留意心血管與失眠問題。', 
-    '丑未': '底層邏輯相撞，性格極度執著、愛鑽牛角尖。防衛心與疑心病較重，容易在人際關係中反覆內耗，需留意脾胃健康。', 
-    '未丑': '底層邏輯相撞，性格極度執著、愛鑽牛角尖。防衛心與疑心病較重，容易在人際關係中反覆內耗，需留意脾胃健康。', 
-    '寅申': '天生自帶超強馬達，極度忙碌、完全閒不下來。行動力爆表但容易衝動行事，需嚴防車關意外與筋骨受傷。', 
-    '申寅': '天生自帶超強馬達，極度忙碌、完全閒不下來。行動力爆表但容易衝動行事，需嚴防車關意外與筋骨受傷。', 
-    '卯酉': '直覺極其敏銳，做事要求精準與計畫。自帶強大桃花氣場，人緣極佳，但也容易捲入感情糾紛或人際關係的背刺。', 
-    '酉卯': '直覺極其敏銳，做事要求精準與計畫。自帶強大桃花氣場，人緣極佳，但也容易捲入感情糾紛或人際關係的背刺。', 
-    '辰戌': '天羅地網相撞，性格強勢好鬥、鐵齒且不迷信。環境變動大，容易大破大立，需留意腸胃與消化系統。', 
-    '戌辰': '天羅地網相撞，性格強勢好鬥、鐵齒且不迷信。環境變動大，容易大破大立，需留意腸胃與消化系統。', 
-    '巳亥': '思維敏捷跳躍，口才極佳且熱衷鑽研事物。但也常因心直口快而禍從口出，需留意突發性的是非口角與交通意外。', 
-    '亥巳': '思維敏捷跳躍，口才極佳且熱衷鑽研事物。但也常因心直口快而禍從口出，需留意突發性的是非口角與交通意外。'
-};
-        const GAN_HE_MAP = {
-    '甲己': '極度看重信用與承諾，做事踏實穩重。但在感情中較為木訥、缺乏浪漫情趣，屬於默默付出的靠山型伴侶。', 
-    '乙庚': '外表柔和但內心剛強，把「義氣」看得比什麼都重。果斷且愛憎分明，但在感情裡容易過度強勢或吃軟不吃硬。', 
-    '丙辛': '自帶群眾魅力與高級感，極懂生活情趣。人緣極佳、異性緣旺盛，但也容易陷入桃花風波或用錢買快樂的迷思。', 
-    '丁壬': '品味極高，渾身散發浪漫與神秘的迷人情調。情感豐富且善於交際，但也容易因為多情而讓感情關係變得複雜。', 
-    '戊癸': '平時溫和重情調，但一旦踩到底線，翻臉無情就像翻書一樣快。在感情與利益面前，能瞬間切換成極度理智的冷酷模式。'
-};
-      
-
-        const chong = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
-        const he = {'子':'丑', '丑':'子', '寅':'亥', '亥':'寅', '卯':'戌', '戌':'卯', '辰':'酉', '酉':'辰', '巳':'申', '申':'巳', '午':'未', '未':'午'};
-        const xing = { '子':'卯', '卯':'子', '寅':'巳', '巳':'申', '申':'寅', '戌':'未', '未':'丑', '丑':'戌' };
-        const selfXing = ['辰', '午', '酉', '亥'];
-        const hai = { '子':'未', '未':'子', '丑':'午', '午':'丑', '寅':'巳', '巳':'寅', '卯':'辰', '辰':'卯', '申':'亥', '亥':'申', '酉':'戌', '戌':'酉' };
-        const ganHe = { '甲':'己', '己':'甲', '乙':'庚', '庚':'乙', '丙':'辛', '辛':'丙', '丁':'壬', '壬':'丁', '戊':'癸', '癸':'戊' };
-        const ganChong = { '甲':'庚', '庚':'甲', '乙':'辛', '辛':'乙', '丙':'壬', '壬':'丙', '丁':'癸', '癸':'丁' };
-
-        const userPillars = [
-            { n: "年柱", g: baZi.getYearGan(), z: baZi.getYearZhi(), c3: "祖母、上司關係、母親" },
-            { n: "月柱", g: baZi.getMonthGan(), z: baZi.getMonthZhi(), c3: "內心想法" },
-            { n: "日柱", g: baZi.getDayGan(), z: baZi.getDayZhi(), c3: "配偶、感情" }
-        ];
-        if(!unknown) userPillars.push({ n: "時柱", g: baZi.getTimeGan(), z: baZi.getTimeZhi(), c3: "事業、學業、家庭、子女(偏向女兒)" });
-
-        const timePillars = [
-            { id: "Year", n: "本年度", g: cur.getYearGan(), z: cur.getYearZhi(), show: false }, 
-            { id: "Month", n: "本月份", g: cur.getMonthGan(), z: cur.getMonthZhi(), show: false }, 
-            { id: "Day", n: "今日", g: cur.getDayGan(), z: cur.getDayZhi(), show: true },
-            { id: "Hour", n: "此時", g: cur.getTimeGan(), z: cur.getTimeZhi(), show: true }
-        ];
-         
-        // 車關判斷 (獨立顯示)
+        // 1. 車關判斷 (保留你原本加回來的獨立顯示邏輯)
         let carMsg = "";
-        // 這裡升級成：同時掃描「流年」跟「流月」有沒有車關
         const triggerZhis = [cur.getYearZhi(), cur.getMonthZhi()]; 
-        userPillars.forEach(p => {
+        const userZhis = [baZi.getYearZhi(), baZi.getMonthZhi(), baZi.getDayZhi()];
+        if(!unknown) userZhis.push(baZi.getTimeZhi());
+
+        userZhis.forEach(uz => {
              triggerZhis.forEach(tz => {
-                 if((tz=='寅' && p.z=='申') || (tz=='申' && p.z=='寅')) carMsg = '寅申沖';
-                 if((tz=='巳' && p.z=='亥') || (tz=='亥' && p.z=='巳')) carMsg = '巳亥沖';
+                 if((tz=='寅' && uz=='申') || (tz=='申' && uz=='寅')) carMsg = '寅申沖';
+                 if((tz=='巳' && uz=='亥') || (tz=='亥' && uz=='巳')) carMsg = '巳亥沖';
              });
         });
         
         const carBox = document.getElementById('carSafetyBox');
         if(carMsg) {
              document.getElementById('safetyText').innerText = `系統偵測到您的命盤近期出現「${carMsg}」，外出移動請特別留意交通安全。`;
-             // 請在這裡換上您的專屬蝦皮分潤連結！
-             document.getElementById('safetyLinkBtn').href = '[https://s.shopee.tw/60LbInHVZF](https://s.shopee.tw/60LbInHVZF)'; 
+             document.getElementById('safetyLinkBtn').href = 'https://s.shopee.tw/60LbInHVZF'; 
              carBox.style.display = 'block';
         } else { 
              carBox.style.display = 'none'; 
         }
 
-        // 敘事收集
-        let buckets = { "Year":[], "Month":[], "Day":[], "Hour":[] };
-
-        timePillars.forEach(t => {
-            userPillars.forEach(u => {
-                if(chong[u.z] === t.z) {
-                    let desc = CHONG_MAP[u.z + t.z] || CHONG_MAP[t.z + u.z] || "氣場變動";
-                    buckets[t.id].push(desc);
-                }
-                if(he[u.z] === t.z) buckets[t.id].push("貴人能量浮現，適合談合作或修復關係");
-                if(ganHe[u.g] === t.g) {
-                    let desc = GAN_HE_MAP[u.g+t.g] || GAN_HE_MAP[t.g+u.g] || "自帶人氣光環，人緣桃花佳";
-                    buckets[t.id].push(desc);
-                }
-                if (t.z === u.z && selfXing.includes(t.z)) {
-                    let desc = "";
-                    if(t.z=='辰') desc="容易鑽牛角尖、覺得事情卡卡的";
-                    if(t.z=='午') desc="情緒較急躁、小心虎頭蛇尾或忘東忘西";
-                    if(t.z=='酉') desc="容易雞婆，講義氣，容易過度熱心反而讓自己心累、甚至鬱悶";
-                    if(t.z=='亥') desc="內心戲較多、容易莫名的悶悶不樂";
-                    buckets[t.id].push(desc);
-                }
-                else if (xing[u.z] === t.z) {
-                    if ((t.z === '子' && u.z === '卯') || (t.z === '卯' && u.z === '子')) buckets[t.id].push("留意人際界線，防範爛桃花或遇到沒禮貌的人");
-                    else if ((t.z === '寅' && u.z === '巳') || (t.z === '巳' && u.z === '申') || (t.z === '申' && u.z === '寅')) buckets[t.id].push("容易吃力不討好或遭人背刺，出門請多留意交通安全");
-                    else if ((t.z === '丑' && u.z === '戌') || (t.z === '戌' && u.z === '未') || (t.z === '未' && u.z === '丑')) buckets[t.id].push("避免過度自信或干涉他人，切忌金錢借貸與作保");
-                }
-                if (hai[u.z] === t.z) buckets[t.id].push("留意暗箭傷人或吃悶虧，重要決定先緩緩");
-                if (ganChong[u.g] === t.g) buckets[t.id].push("外在環境突發狀況多，建議低調行事、少說多做");
-                if (ganHe[u.g] === t.g && he[u.z] === t.z) buckets[t.id].push("✨極度幸運日！天地氣場完美契合，適合執行重大計畫");
-            });
-        });
-
-        // 生成段落
-        let finalHTML = "";
-        const defaultMsgs = {
-            "Day": "氣場和諧平順。這是一段沒有外在干擾的好時光，適合按部就班處理日常，喝杯好茶，享受平靜就是福氣。",
-            "Hour": "能量安穩，思緒清晰。可以專注當下，或是讓腦袋放空休息一下。"
-        };
-
-        timePillars.forEach(t => {
-            if (!t.show) return;
-            let notes = buckets[t.id];
-            let content = "";
-            if (notes.length > 0) {
-                let uniqueNotes = [...new Set(notes)];
-                content = uniqueNotes.join('，');
-            } else {
-                content = defaultMsgs[t.id] || "氣場平穩，順其自然即可。";
-            }
-            finalHTML += `<div class="narrative-p"><span class="narrative-title">${t.n}</span> ${content}</div>`;
-        });
+        // ==========================================
+        // 👇 老師傅的文案資料庫 (之後填這裡) 👇
+        // ==========================================
         
-        document.getElementById('currentLuckAdvice').innerHTML = finalHTML;
+        // 【十神對應】：以「日主」對「流日天干」
+        const curDayGan = cur.getDayGan();
+        const dayTenGod = calculateTenGod(baZi.getDayGan(), curDayGan) || '比肩';
+        
+        const godDict = {
+    '食神': { 
+        theme: '[靈感爆發日] 享受點子變現的樂趣', 
+        action: '適合腦力激盪、創意提案，或是放慢腳步享受生活。今日你的親和力是最好的武器。', 
+        item: '[質感耳機或擴香]，隔絕雜音，保持心情愉悅', 
+        diet: '精緻的手作甜點或具有儀式感的下午茶' 
+    },
+    '傷官': { 
+        theme: '[高調突圍日]打破常規展現自我', 
+        action: '適合打破常規、發表獨特見解、進行商業談判。但鋒芒太露，請克制批評別人的衝動。', 
+        item: '[搶眼的設計師單品]，強化你的氣場與個人品牌', 
+        diet: '口味層次豐富、具刺激感的異國料理' 
+    },
+    '正財': { 
+        theme: '[踏實聚財日]穩健累積你的資產', 
+        action: '適合查帳、盤點資源、處理具體合約。今天不宜投機，一分耕耘就有一分收穫。', 
+        item: '[實用的記事本或記帳本]，讓數字與計畫落地', 
+        diet: 'CP值高、菜色豐富的經典老店或便當' 
+    },
+    '偏財': { 
+        theme: '[人脈變現日]資源整合與商機探索', 
+        action: '適合拜訪大客戶、參加商業聚會、尋找投資標的。把錢花在建立人脈上，報酬率最高。', 
+        item: '[名片盒或社交小禮物]，隨時準備結交新朋友', 
+        diet: '適合多人分享的披薩、熱炒，氣氛越熱絡越旺' 
+    },
+    '正官': { 
+        theme: '[自律建功日]建立權威與專業度', 
+        action: '適合與高層開會、處理官方行政流程、建立你的專業SOP。今天是展現責任感的時刻。', 
+        item: '[手錶或正裝西裝/套裝]，展現守時與專業的紀律', 
+        diet: '乾淨、衛生、卡路里控制精準的健康餐盒' 
+    },
+    '七殺': { 
+        theme: '[高壓戰鬥日]危機處理與魄力展現', 
+        action: '執行力爆棚！適合處理高壓任務或緊急危機。請留意脾氣暴躁，並防範競爭對手暗算。', 
+        item: '[具有金屬銳利感的配件]，象徵披甲上陣、斬斷猶豫', 
+        diet: '提神的黑咖啡、能量飲，或是辛辣食物來激發鬥志' 
+    },
+    '正印': { 
+        theme: '[貴人庇蔭日]靜心充電與吸收知識', 
+        action: '長輩緣極佳，適合尋求顧問建議、簽署長期合約、或是安靜進修。今日宜守不宜攻。', 
+        item: '[書籍或舒適的靠墊]，為自己建立一個安全感空間', 
+        diet: '溫潤滋補的熱湯、燉品或養生茶，暖胃也暖心' 
+    },
+    '偏印': { 
+        theme: '[直覺洞察日]深度思考與冷靜覆盤', 
+        action: '直覺極其敏銳，適合獨處思考、研究冷門知識、或是從「反面角度」覆盤現有的計畫。', 
+        item: '[水晶、護身符或冥想小物]，穩定腦波與磁場', 
+        diet: '無糖綠茶或輕食，保持神清氣爽，不讓腸胃拖累大腦' 
+    },
+    '比肩': { 
+        theme: '[獨立作戰日]聚焦自我與堅持步調', 
+        action: '適合獨立作業、堅持自己的步調前進。今天靠自己最實在，適合設定明確的個人目標。', 
+        item: '[好穿的運動鞋或簡約單品]，象徵腳踏實地、不拖泥帶水', 
+        diet: '高蛋白或原型食物，為身體補充最純粹的戰鬥能量' 
+    },
+    '劫財': { 
+        theme: '[團隊競爭日]合作搶攻與防範漏財', 
+        action: '適合團隊集體大作戰、搶佔市場份額。但今天腦波弱，極易衝動消費或破財，請拉緊錢包！', 
+        item: '[隨身帶保溫瓶裝水]，象徵「水為財」，把流失的錢財補回來', 
+        diet: '具有飽足感的大份量碳水化合物，補充消耗過度的心力' 
+    }
+};
+
+        // 建議將傳入的變數改為客人的「喜用五行」
+const curElement = getWuxing(favorableElement); // 假設你已經算出他的喜用神
+
+const colorDict = {
+    '木': '穿件 <span class="guide-highlight">[綠色、青色或薄荷綠]</span>，氣場更強',
+    '火': '穿件 <span class="guide-highlight">[紅色、紫色或橘紅色]</span>，氣場更強',
+    '土': '穿件 <span class="guide-highlight">[黃色、大地色或咖啡色]</span>，氣場更強',
+    '金': '穿件 <span class="guide-highlight">[白色、銀色或金屬色]</span>，氣場更強',
+    '水': '氣場更強穿件 <span class="guide-highlight">[黑色、深藍色或水藍色]</span>，氣場更強'
+};
+
+        // 【今日社交融洽】：以「流日地支」找三合六合
+const guiRenDict = {
+    '子': '龍、猴、牛', 
+    '丑': '蛇、雞、鼠', 
+    '寅': '馬、狗、豬', 
+    '卯': '豬、羊、狗',
+    '辰': '猴、鼠、雞', 
+    '巳': '雞、牛、猴', 
+    '午': '虎、狗、羊', 
+    '未': '豬、兔、馬',
+    '申': '鼠、龍、蛇', // 這裡把「辰」改回「龍」
+    '酉': '蛇、牛、龍', 
+    '戌': '虎、馬、兔', 
+    '亥': '兔、羊、虎'
+};
+
+        // ==========================================
+        // 渲染【每日指南】
+        // ==========================================
+        let d = godDict[dayTenGod] || godDict['比肩'];
+        let html = `
+            <div class="guide-section">
+                <div class="guide-title">📅 宸和 | 每日指南</div>
+                <ul class="guide-list">
+                    <li><span class="guide-icon">🎯</span><span class="guide-text"><strong>今日主題：</strong> ${d.theme}</span></li>
+                    <li><span class="guide-icon">💪</span><span class="guide-text"><strong>能力分析：</strong> ${d.action}</span></li>
+                    <li><span class="guide-icon">👕</span><span class="guide-text"><strong>開運穿搭：</strong> ${colorDict[curDayEl]}</span></li>
+                    <li><span class="guide-icon">💎</span><span class="guide-text"><strong>幸運小物：</strong> ${d.item}</span></li>
+                    <li><span class="guide-icon">☕</span><span class="guide-text"><strong>開運飲食：</strong> ${d.diet}</span></li>
+                    <li><span class="guide-icon">🐭</span><span class="guide-text"><strong>今日貴人：</strong> 屬 <span class="guide-highlight">[${guiRenDict[cur.getDayZhi()]}]</span> 的夥伴</span></li>
+                </ul>
+            </div>
+        `;
+
+        // ==========================================
+        // 渲染【此時：即時避凶】(抓取流時地支)
+        // ==========================================
+        const curHourZhi = cur.getTimeZhi();
+        const chong = {'子':'午', '午':'子', '丑':'未', '未':'丑', '寅':'申', '申':'寅', '卯':'酉', '酉':'卯', '辰':'戌', '戌':'辰', '巳':'亥', '亥':'巳'};
+        const xing = { '子':'卯', '卯':'子', '寅':'巳', '巳':'申', '申':'寅', '戌':'未', '未':'丑', '丑':'戌' };
+        
+        // 【破】：突發中斷、計畫生變、破壞完美
+const po = { 
+    '子':'酉', '酉':'子', '卯':'午', '午':'卯', 
+    '辰':'丑', '丑':'辰', '戌':'未', '未':'戌', 
+    '寅':'亥', '亥':'寅', '巳':'申', '申':'巳' 
+};
+
+// 【害】：背後暗算、小人作祟、覺得委屈
+const hai = { 
+    '子':'未', '未':'子', '丑':'午', '午':'丑', 
+    '寅':'巳', '巳':'寅', '卯':'辰', '辰':'卯', 
+    '申':'亥', '亥':'申', '酉':'戌', '戌':'酉' 
+};
+
+        let alertMsg = "";
+        let isDanger = false;
+
+        // 🧨 【衝】的專屬化解字典
+const chongAdvice = {
+    '子午': '水火相戰！建議配戴「木」屬性物件（如木珠）或穿綠色系，用木來通關化解。',
+    '午子': '水火相戰！建議配戴「木」屬性物件（如木珠）或穿綠色系，用木來通關化解。',
+    '寅申': '金木相戰！建議多喝杯溫水，或配戴藍/黑色系配件，用水洩金生木。',
+    '申寅': '金木相戰！建議多喝杯溫水，或配戴藍/黑色系配件，用水洩金生木。',
+    '卯酉': '金木相戰！氣場銳利，建議去洗個臉深呼吸，配戴「水」元素小物柔和磁場。',
+    '酉卯': '金木相戰！氣場銳利，建議去洗個臉深呼吸，配戴「水」元素小物柔和磁場。',
+    '巳亥': '水火相戰！情緒易波動，建議靠近植物盆栽，或點木質調精油穩定心神。',
+    '亥巳': '水火相戰！情緒易波動，建議靠近植物盆栽，或點木質調精油穩定心神。',
+    '辰戌': '土氣相撞！容易固執己見。建議配戴「金屬」手錶飾品，洩去多餘壓力。',
+    '戌辰': '土氣相撞！容易固執己見。建議配戴「金屬」手錶飾品，洩去多餘壓力。',
+    '丑未': '土氣相撞！事情容易卡關。建議穿戴「白色/金屬」配件，增加變通靈活性。',
+    '未丑': '土氣相撞！事情容易卡關。建議穿戴「白色/金屬」配件，增加變通靈活性。'
+};
+
+// 🌪️ 【刑】的專屬化解字典
+const xingAdvice = {
+    // 1. 無禮之刑
+    '子卯': '【人際地雷】容易心直口快得罪人。建議：凡事「請、謝謝」掛嘴邊，配戴紅色系小物（火）疏通氣場。',
+    '卯子': '【人際地雷】容易心直口快得罪人。建議：凡事「請、謝謝」掛嘴邊，配戴紅色系小物（火）疏通氣場。',
+    
+    // 2. 無恩之刑
+    '寅巳': '【好心被雷親】覺得付出沒被看見。建議：今天別管閒事，喝杯熱茶，配戴黃/土色配件穩定情緒。',
+    '巳寅': '【好心被雷親】覺得付出沒被看見。建議：今天別管閒事，喝杯熱茶，配戴黃/土色配件穩定情緒。',
+    '巳申': '【溝通誤會】容易引發合約或口角誤會。建議：重要事項白紙黑字寫下，配戴水藍色配件潤滑溝通。',
+    '申巳': '【溝通誤會】容易引發合約或口角誤會。建議：重要事項白紙黑字寫下，配戴水藍色配件潤滑溝通。',
+    '寅申': '【金木相戰】與衝相同，多喝水，用水化解衝突。',
+    '申寅': '【金木相戰】與衝相同，多喝水，用水化解衝突。',
+
+    // 3. 恃勢之刑
+    '丑戌': '【暗中較勁】易遇到不講理或施壓。建議：別硬碰硬，配戴「金屬飾品」洩掉土氣壓力，退一步海闊天空。',
+    '戌丑': '【暗中較勁】易遇到不講理或施壓。建議：別硬碰硬，配戴「金屬飾品」洩掉土氣壓力，退一步海闊天空。',
+    '戌未': '【暗中較勁】易遇到不講理或施壓。建議：別硬碰硬，配戴「金屬飾品」洩掉土氣壓力，退一步海闊天空。',
+    '未戌': '【暗中較勁】易遇到不講理或施壓。建議：別硬碰硬，配戴「金屬飾品」洩掉土氣壓力，退一步海闊天空。',
+    
+    // 4. 自刑 (自己搞自己)
+    '辰辰': '【鑽牛角尖】容易生悶氣、越想越氣。建議：離開座位去洗個臉、伸展一下，轉移注意力！',
+    '午午': '【鑽牛角尖】容易生悶氣、越想越氣。建議：離開座位去洗個臉、伸展一下，轉移注意力！',
+    '酉酉': '【鑽牛角尖】容易生悶氣、越想越氣。建議：離開座位去洗個臉、伸展一下，轉移注意力！',
+    '亥亥': '【鑽牛角尖】容易生悶氣、越想越氣。建議：離開座位去洗個臉、伸展一下，轉移注意力！'
+};
+
+// 💔 【破】的專屬化解字典 (計畫生變/掃興)
+const poAdvice = {
+    '子酉': '【隱私外流】容易有面子問題或說錯話。建議：今日開會少發言，配戴大地色(土)配件穩固氣場。',
+    '酉子': '【隱私外流】容易有面子問題或說錯話。建議：今日開會少發言，配戴大地色(土)配件穩固氣場。',
+    '卯午': '【情緒翻車】容易在小事上突然發脾氣、破壞氣氛。建議：多喝水冷靜，穿黑色系衣服(水)降火。',
+    '午卯': '【情緒翻車】容易在小事上突然發脾氣、破壞氣氛。建議：多喝水冷靜，穿黑色系衣服(水)降火。',
+    '辰丑': '【進度卡關】合約或進度突然生變。建議：放慢腳步仔細檢查文件，配戴金屬配件(金)增加決斷力。',
+    '丑辰': '【進度卡關】合約或進度突然生變。建議：放慢腳步仔細檢查文件，配戴金屬配件(金)增加決斷力。',
+    '戌未': '【默契破裂】與同事或客戶突然產生隔閡。建議：暫緩重大談判，各退一步，喝杯熱茶暖胃暖心。',
+    '未戌': '【默契破裂】與同事或客戶突然產生隔閡。建議：暫緩重大談判，各退一步，喝杯熱茶暖胃暖心。',
+    '寅亥': '【先好後壞】合中帶破，說好的事情容易臨時變卦。建議：別高興得太早，務必準備好B計畫 (Plan B)。',
+    '亥寅': '【先好後壞】合中帶破，說好的事情容易臨時變卦。建議：別高興得太早，務必準備好B計畫 (Plan B)。',
+    '巳申': '【先好後壞】合中帶破，說好的事情容易臨時變卦。建議：別高興得太早，務必準備好B計畫 (Plan B)。',
+    '申巳': '【先好後壞】合中帶破，說好的事情容易臨時變卦。建議：別高興得太早，務必準備好B計畫 (Plan B)。'
+};
+
+// 🔪 【害】的專屬化解字典 (背後小人/委屈)
+const haiAdvice = {
+    '子未': '【親信無情】容易被信任的人佔便宜而感到委屈。建議：保持社交距離，別太掏心掏肺，守好自己的底線。',
+    '未子': '【親信無情】容易被信任的人佔便宜而感到委屈。建議：保持社交距離，別太掏心掏肺，守好自己的底線。',
+    '丑午': '【無端捲入】容易被捲入辦公室政治或八卦。建議：戴上耳機專注工作，少管閒事，遠離是非圈。',
+    '午丑': '【無端捲入】容易被捲入辦公室政治或八卦。建議：戴上耳機專注工作，少管閒事，遠離是非圈。',
+    '寅巳': '【恩將仇報】覺得付出不被感激（同刑）。建議：降低對他人的期待，做好份內事就好，配戴水藍色配件。',
+    '巳寅': '【恩將仇報】覺得付出不被感激（同刑）。建議：降低對他人的期待，做好份內事就好，配戴水藍色配件。',
+    '卯辰': '【利益分食】資源或功勞暗中被別人搶走。建議：護好自己的財物與企劃案，重要事情務必親自盯進度。',
+    '辰卯': '【利益分食】資源或功勞暗中被別人搶走。建議：護好自己的財物與企劃案，重要事情務必親自盯進度。',
+    '申亥': '【背後流言】容易被人背後說閒話或抹黑。建議：左耳進右耳出，不需要急著解釋，用實力證明自己。',
+    '亥申': '【背後流言】容易被人背後說閒話或抹黑。建議：左耳進右耳出，不需要急著解釋，用實力證明自己。',
+    '酉戌': '【嫉妒排擠】表現太好反而招人眼紅。建議：今日宜低調行事，功勞多推給團隊，配戴水藍色/黑色系配件。',
+    '戌酉': '【嫉妒排擠】表現太好反而招人眼紅。建議：今日宜低調行事，功勞多推給團隊，配戴水藍色/黑色系配件。'
+};
+
+// ==========================================
+// 將這段邏輯融入你原本的迴圈中：
+
+// 開始檢查每個地支是否有衝突
+for (let uz of userZhis) {
+    let pairKey = uz + curHourZhi; 
+
+    // 1. 檢查是否相「衝」 (車禍級：碰撞最強)
+    if (chong[uz] === curHourZhi) {
+        isDanger = true;
+        let detailMsg = chongAdvice[pairKey] || "深呼吸，慢半拍就是好運。"; 
+        alertMsg = `氣場跳動較快，容易心不在焉。建議暫停複雜腦力活，開車多讓讓路。💡神探錦囊：${detailMsg}`;
+        break; 
+    } 
+    // 2. 檢查是否相「刑」 (官司級：卡關內耗)
+    else if (xing[uz] === curHourZhi || uz === curHourZhi) { 
+        if (xingAdvice[pairKey]) {
+            isDanger = true;
+            let detailMsg = xingAdvice[pairKey];
+            alertMsg = `容易鑽牛角尖或覺得事情卡卡的。避免在吵雜環境做重大決定。💡神探錦囊：${detailMsg}`;
+            break;
+        }
+    }
+    // 3. 檢查是否相「害」 (小人級：暗箭難防)
+    else if (hai[uz] === curHourZhi) {
+        isDanger = true;
+        let detailMsg = haiAdvice[pairKey] || "保持低調，少說多做。";
+        alertMsg = `磁場容易招惹小人或引發委屈感。防人之心不可無，凡事多留個心眼。💡神探錦囊：${detailMsg}`;
+        break;
+    }
+    // 4. 檢查是否相「破」 (掃興級：中斷破壞)
+    else if (po[uz] === curHourZhi) {
+        isDanger = true;
+        let detailMsg = poAdvice[pairKey] || "放寬心，好事多磨。";
+        alertMsg = `原本順利的事情可能會突然有小插曲。保持彈性，別因為小事破壞心情。💡神探錦囊：${detailMsg}`;
+        break;
+    }
+}
+
+        if (isDanger) {
+            html += `
+                <div class="guide-section alert-box">
+                    <div class="guide-title" style="color:#e74c3c; border-color: rgba(231,76,60,0.3);">⚠️ 即時能量警示</div>
+                    <div style="font-size:13px; text-align:justify;">${alertMsg}</div>
+                </div>
+            `;
+        } else {
+            html += `
+                <div class="guide-section safe-box">
+                    <div class="guide-title" style="color:#2ecc71; border-color: rgba(46,204,113,0.3);">🍵 此時氣場平穩</div>
+                    <div style="font-size:13px; text-align:justify;">這段時間沒有外在干擾。適合把節奏放慢，或是讓腦袋放空休息一下。沒事，就是最好的運氣。</div>
+                </div>
+            `;
+        }
+
+        document.getElementById('currentLuckAdvice').innerHTML = html;
     }
 
     function analyzeV5Upsell(baZi, isUnknownTime) {
